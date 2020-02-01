@@ -23,7 +23,7 @@ object ViewportUtils {
         val doubleWorldHeight = worldHeight * 2
         renderer.projectionMatrix = viewport.camera.combined
         renderer.begin(ShapeRenderer.ShapeType.Line)
-        renderer.color = Color.WHITE
+        renderer.color = Color.DARK_GRAY
         // draw vertical lines
         for (x in -doubleWorldWidth until doubleWorldWidth step cellSize) {
             renderer.line(x.toFloat(), -doubleWorldHeight.toFloat(), x.toFloat(), doubleWorldHeight.toFloat())

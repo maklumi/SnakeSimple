@@ -1,5 +1,6 @@
 package com.snakesimple.screen
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Disposable
@@ -25,19 +26,30 @@ class GameRenderer(private val controller: GameController) : Disposable {
 
         clearScreen(0f, 0f, 0f)
 
-        viewport.apply()
-        renderer.projectionMatrix = camera.combined
-        renderer.begin(ShapeRenderer.ShapeType.Line)
-
-        renderer.circle(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, 2.5f)
-
-        renderer.end()
-
         renderDebug()
     }
 
     private fun renderDebug() {
         ViewportUtils.drawGrid(viewport, renderer)
+
+        val oldColor = Color(renderer.color)
+        viewport.apply()
+        renderer.projectionMatrix = camera.combined
+        renderer.begin(ShapeRenderer.ShapeType.Line)
+
+        drawDebug()
+
+        renderer.end()
+        renderer.color = oldColor
+    }
+
+    private fun drawDebug() {
+        renderer.color = Color.PURPLE
+
+        val head = controller.snakeHead
+        val hb = head.bounds
+        renderer.rect(hb.x, hb.y, hb.width, hb.height)
+
     }
 
     fun resize(width: Int, height: Int) {
