@@ -18,4 +18,9 @@ abstract class EntityBase {
         this.width = width
         this.height = height
     }
+
+    fun setPosition(x: Float, y: Float) {
+        this.x = x
+        this.y = y
+    }
 }

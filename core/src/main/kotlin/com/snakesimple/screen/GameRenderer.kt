@@ -46,13 +46,19 @@ class GameRenderer(private val controller: GameController) : Disposable {
     private fun drawDebug() {
         renderer.color = Color.PURPLE
 
-        val head = controller.head
+        val head = controller.snake.head
         val hb = head.bounds
         renderer.rect(hb.x, hb.y, hb.width, hb.height)
 
         renderer.color = Color.FIREBRICK
         val cb = controller.coin.bounds
         renderer.rect(cb.x, cb.y, cb.width, cb.height)
+
+        renderer.color = Color.GOLDENROD
+        val bodyParts = controller.snake.bodyParts
+        bodyParts.forEach { part ->
+            renderer.rect(part.x, part.y, part.width, part.height)
+        }
     }
 
     fun resize(width: Int, height: Int) {

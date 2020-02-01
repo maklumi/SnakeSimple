@@ -10,8 +10,4 @@ class Coin : EntityBase() {
         setSize(GameConfig.COIN_SIZE, GameConfig.COIN_SIZE)
     }
 
-    fun setPosition(x: Float, y: Float) {
-        this.x = x
-        this.y = y
-    }
 }

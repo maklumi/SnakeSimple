@@ -2,15 +2,16 @@ package com.snakesimple.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.snakesimple.config.GameConfig
 import com.snakesimple.entity.Coin
 import com.snakesimple.entity.Direction
-import com.snakesimple.entity.SnakeHead
+import com.snakesimple.entity.Snake
 
 class GameController {
 
-    val head = SnakeHead()
+    val snake = Snake()
     val coin = Coin()
     private var timer = 0f
 
@@ -20,26 +21,27 @@ class GameController {
         timer += delta
         if (timer > GameConfig.MOVE_TIME) {
             timer = 0f
-            head.move()
+            snake.move()
             checkBoundary()
+            checkCollision()
         }
 
         spawnCoin()
     }
 
     private fun queryInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) head.direction = Direction.LEFT
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) head.direction = Direction.RIGHT
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) head.direction = Direction.UP
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) head.direction = Direction.DOWN
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) snake.direction = Direction.LEFT
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) snake.direction = Direction.RIGHT
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) snake.direction = Direction.UP
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) snake.direction = Direction.DOWN
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) Gdx.app.exit()
     }
 
     private fun checkBoundary() {
-        if (head.x >= GameConfig.WORLD_WIDTH) head.x = 0f
-        if (head.x < 0f) head.x = GameConfig.WORLD_WIDTH - head.width
-        if (head.y >= GameConfig.WORLD_HEIGHT) head.y = 0f
-        if (head.y < 0f) head.y = GameConfig.WORLD_HEIGHT - head.height
+        if (snake.head.x >= GameConfig.WORLD_WIDTH) snake.head.x = 0f
+        if (snake.head.x < 0f) snake.head.x = GameConfig.WORLD_WIDTH - snake.head.width
+        if (snake.head.y >= GameConfig.WORLD_HEIGHT) snake.head.y = 0f
+        if (snake.head.y < 0f) snake.head.y = GameConfig.WORLD_HEIGHT - snake.head.height
     }
 
     private fun spawnCoin() {
@@ -48,6 +50,15 @@ class GameController {
             val x = MathUtils.random((GameConfig.WORLD_WIDTH - coin.width).toInt())
             val y = MathUtils.random((GameConfig.WORLD_HEIGHT - coin.height).toInt())
             coin.setPosition(x.toFloat(), y.toFloat())
+        }
+    }
+
+    private fun checkCollision() {
+        // check head <-> coin collision and add lengthen body part
+        val headCoinCollision = Intersector.overlaps(snake.head.bounds, coin.bounds)
+        if (headCoinCollision && coin.available) {
+            snake.insertBodyPart()
+            coin.available = false // reset so can be spawned again
         }
     }
 }
