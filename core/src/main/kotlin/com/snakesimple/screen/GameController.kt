@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
-import com.badlogic.gdx.utils.Logger
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
@@ -16,7 +15,6 @@ import com.snakesimple.entity.Snake
 
 class GameController {
 
-    private val log = Logger(GameController::class.java.simpleName, Logger.DEBUG)
     val snake = Snake()
     val coin = Coin()
     private var timer = 0f
@@ -81,6 +79,7 @@ class GameController {
                 continue // with other part
             }
             if (Intersector.overlaps(snake.head.bounds, part.bounds)) {
+                GameManager.saveHighScore()
                 GameManager.state = GameState.GAME_OVER
                 coin.setPosition(-2f, 2f) // put it off screen
                 GameManager.reset()
