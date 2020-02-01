@@ -4,13 +4,17 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Logger
 import com.snakesimple.config.GameConfig
+import com.snakesimple.entity.BodyPart
 import com.snakesimple.entity.Coin
 import com.snakesimple.entity.Direction
 import com.snakesimple.entity.Snake
 
 class GameController {
 
+    private val log = Logger(GameController::class.java.simpleName, Logger.DEBUG)
     val snake = Snake()
     val coin = Coin()
     private var timer = 0f
@@ -35,6 +39,7 @@ class GameController {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) snake.direction = Direction.UP
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) snake.direction = Direction.DOWN
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) Gdx.app.exit()
+        if (Gdx.input.isKeyPressed(Input.Keys.I)) snake.insertBodyPart()
     }
 
     private fun checkBoundary() {
@@ -59,6 +64,19 @@ class GameController {
         if (headCoinCollision && coin.available) {
             snake.insertBodyPart()
             coin.available = false // reset so can be spawned again
+        }
+
+        // check head <-> body part
+        val bodyParts = Array.ArrayIterable<BodyPart>(snake.bodyParts)
+        for (part in bodyParts) {
+            if (part.justAdded) {
+                part.justAdded = false
+                continue // with other part
+            }
+            if (Intersector.overlaps(snake.head.bounds, part.bounds)) {
+                log.debug("Yes")
+            }
+
         }
     }
 }
