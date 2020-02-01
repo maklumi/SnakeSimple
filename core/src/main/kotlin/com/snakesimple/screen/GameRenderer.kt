@@ -37,6 +37,7 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
         clearScreen(0f, 0f, 0f)
 
         renderUI()
+        GameManager.displayScores(delta)
         renderDebug()
     }
 
@@ -45,10 +46,10 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
         batch.projectionMatrix = hudCamera.combined
         batch.begin()
 
-        glyphLayout.setText(uiFont, "HIGH SCORE: ${GameManager.highScore}")
+        glyphLayout.setText(uiFont, "HIGH SCORE: ${GameManager.displayHighScore}")
         uiFont.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
 
-        glyphLayout.setText(uiFont, "SCORE: ${GameManager.score}")
+        glyphLayout.setText(uiFont, "SCORE: ${GameManager.displayScore}")
         uiFont.draw(batch, glyphLayout, GameConfig.HUD_WIDTH - glyphLayout.width - 20f,
                     GameConfig.HUD_HEIGHT - glyphLayout.height)
 

@@ -50,15 +50,16 @@ class GameController {
     private fun checkBoundary() {
         if (snake.head.x >= GameConfig.WORLD_WIDTH) snake.head.x = 0f
         if (snake.head.x < 0f) snake.head.x = GameConfig.WORLD_WIDTH - snake.head.width
-        if (snake.head.y >= GameConfig.WORLD_HEIGHT) snake.head.y = 0f
-        if (snake.head.y < 0f) snake.head.y = GameConfig.WORLD_HEIGHT - snake.head.height
+        if (snake.head.y >= GameConfig.MAX_Y) snake.head.y = 0f
+        if (snake.head.y < 0f) snake.head.y = GameConfig.MAX_Y - snake.head.height
     }
 
     private fun spawnCoin() {
         if (!coin.available) {
             coin.available = true
             val x = MathUtils.random((GameConfig.WORLD_WIDTH - coin.width).toInt())
-            val y = MathUtils.random((GameConfig.WORLD_HEIGHT - coin.height).toInt())
+            val y = MathUtils.random((GameConfig.MAX_Y - coin.height).toInt())
+//            val y = (GameConfig.MAX_Y - coin.height).toInt()
             coin.setPosition(x.toFloat(), y.toFloat())
         }
     }
@@ -69,6 +70,7 @@ class GameController {
         if (headCoinCollision && coin.available) {
             snake.insertBodyPart()
             coin.available = false // reset so can be spawned again
+            GameManager.score += GameConfig.COIN_SCORE
         }
 
         // check head <-> body part
@@ -81,6 +83,7 @@ class GameController {
             if (Intersector.overlaps(snake.head.bounds, part.bounds)) {
                 GameManager.state = GameState.GAME_OVER
                 coin.setPosition(-2f, 2f) // put it off screen
+                GameManager.reset()
             }
 
         }

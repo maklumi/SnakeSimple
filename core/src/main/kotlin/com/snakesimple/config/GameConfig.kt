@@ -16,7 +16,11 @@ object GameConfig {
     const val SNAKE_SPEED = 1f // world units
 
     const val COIN_SIZE = 1f // world units
+    const val COIN_SCORE = 20
 
     const val HUD_WIDTH = 800f // world units
     const val HUD_HEIGHT = 480f // world units
+
+    private const val Y_OFFSET = 2f // space for ui score text
+    const val MAX_Y = WORLD_HEIGHT - Y_OFFSET
 }
