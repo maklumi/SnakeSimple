@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Logger
+import com.snakesimple.common.GameManager
+import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
 import com.snakesimple.entity.BodyPart
 import com.snakesimple.entity.Coin
@@ -21,6 +23,8 @@ class GameController {
 
     fun update(delta: Float) {
         queryInput()
+
+        if (GameManager.isReady() || GameManager.isGameOver()) return
 
         timer += delta
         if (timer > GameConfig.MOVE_TIME) {
@@ -40,6 +44,7 @@ class GameController {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) snake.direction = Direction.DOWN
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) Gdx.app.exit()
         if (Gdx.input.isKeyPressed(Input.Keys.I)) snake.insertBodyPart()
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameManager.isPlaying()) restart()
     }
 
     private fun checkBoundary() {
@@ -74,9 +79,18 @@ class GameController {
                 continue // with other part
             }
             if (Intersector.overlaps(snake.head.bounds, part.bounds)) {
-                log.debug("Yes")
+                GameManager.state = GameState.GAME_OVER
+                coin.setPosition(-2f, 2f) // put it off screen
             }
 
         }
+    }
+
+    private fun restart() {
+        snake.bodyParts.clear()
+        snake.head.setPosition(0f, 0f)
+        snake.direction = Direction.RIGHT
+        coin.available = false
+        GameManager.state = GameState.PLAYING
     }
 }

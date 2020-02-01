@@ -8,7 +8,11 @@ class Snake {
     val head = SnakeHead()
     val bodyParts = Array<BodyPart>()
 
-    var direction = Direction.UP
+    var direction: Direction = Direction.UP
+        set(value) {
+            if (!value.isOpposite(field)) field = value
+        }
+
     private var prevX = 0f
     private var prevY = 0f
 
