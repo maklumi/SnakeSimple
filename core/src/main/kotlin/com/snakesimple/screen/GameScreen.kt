@@ -8,7 +8,7 @@ class GameScreen(game: SimpleSnakeMain) : ScreenAdapter() {
     private val assetManager = game.assetManager
 
     private val controller = GameController()
-    private val renderer = GameRenderer(controller)
+    private val renderer = GameRenderer(game.batch, controller, assetManager)
 
     override fun show() {
 

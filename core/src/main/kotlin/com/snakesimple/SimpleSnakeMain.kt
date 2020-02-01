@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.snakesimple.screen.GameScreen
+import com.snakesimple.screen.LoadingScreen
 
 @Suppress("LibGDXLogLevel")
 class SimpleSnakeMain : Game() {
@@ -16,7 +16,7 @@ class SimpleSnakeMain : Game() {
     override fun create() {
         Gdx.app.logLevel = Application.LOG_DEBUG
         batch = SpriteBatch()
-        setScreen(GameScreen(this))
+        setScreen(LoadingScreen(this))
     }
 
     override fun dispose() {

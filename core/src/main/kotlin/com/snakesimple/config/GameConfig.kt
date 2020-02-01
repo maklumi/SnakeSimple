@@ -16,4 +16,7 @@ object GameConfig {
     const val SNAKE_SPEED = 1f // world units
 
     const val COIN_SIZE = 1f // world units
+
+    const val HUD_WIDTH = 800f // world units
+    const val HUD_HEIGHT = 480f // world units
 }
