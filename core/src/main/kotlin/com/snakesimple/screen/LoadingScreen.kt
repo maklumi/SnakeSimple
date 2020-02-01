@@ -26,6 +26,8 @@ class LoadingScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
         assetManager.load(Descriptor.UI_FONT)
         assetManager.load(Descriptor.GAME_PLAY)
         assetManager.load(Descriptor.UI_SKIN)
+        assetManager.load(Descriptor.COIN_SOUND)
+        assetManager.load(Descriptor.LOSE_SOUND)
     }
 
     override fun render(delta: Float) {

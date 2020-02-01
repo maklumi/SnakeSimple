@@ -8,4 +8,7 @@ object Path {
 
     const val UI_SKIN = "assets/ui/ui.json"
 
+    const val COIN_SOUND = "assets/sounds/coin.wav"
+
+    const val LOSE_SOUND = "assets/sounds/lose.wav"
 }

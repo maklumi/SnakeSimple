@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
+import com.snakesimple.collision.CollisionListener
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
@@ -13,7 +14,7 @@ import com.snakesimple.entity.Coin
 import com.snakesimple.entity.Direction
 import com.snakesimple.entity.Snake
 
-class GameController {
+class GameController(private val listener: CollisionListener) {
 
     val snake = Snake()
     val coin = Coin()
@@ -69,6 +70,7 @@ class GameController {
             snake.insertBodyPart()
             coin.available = false // reset so can be spawned again
             GameManager.score += GameConfig.COIN_SCORE
+            listener.hitCoin()
         }
 
         // check head <-> body part
@@ -83,6 +85,7 @@ class GameController {
                 GameManager.state = GameState.GAME_OVER
                 coin.setPosition(-2f, 2f) // put it off screen
                 GameManager.reset()
+                listener.lose()
             }
 
         }
