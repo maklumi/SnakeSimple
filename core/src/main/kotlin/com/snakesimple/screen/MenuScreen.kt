@@ -62,7 +62,7 @@ class MenuScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
         val playButton = Button(skin, ButtonStyleNames.PLAY)
         playButton.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                game.screen = GameScreen(game)
+                game.screen = com.snakeashley.screen.GameScreen(game)
             }
         })
 
