@@ -14,4 +14,6 @@ object GameConfig {
     const val SNAKE_SIZE = 1f // world units
     const val MOVE_TIME = 0.2f
     const val SNAKE_SPEED = 1f // world units
+
+    const val COIN_SIZE = 1f // world units
 }

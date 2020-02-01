@@ -50,6 +50,9 @@ class GameRenderer(private val controller: GameController) : Disposable {
         val hb = head.bounds
         renderer.rect(hb.x, hb.y, hb.width, hb.height)
 
+        renderer.color = Color.FIREBRICK
+        val cb = controller.coin.bounds
+        renderer.rect(cb.x, cb.y, cb.width, cb.height)
     }
 
     fun resize(width: Int, height: Int) {
