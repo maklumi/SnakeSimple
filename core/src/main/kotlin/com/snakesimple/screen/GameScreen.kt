@@ -2,8 +2,10 @@ package com.snakesimple.screen
 
 import com.badlogic.gdx.ScreenAdapter
 import com.snakesimple.SimpleSnakeMain
+import com.snakesimple.common.GameManager
+import com.snakesimple.common.GameState
 
-class GameScreen(game: SimpleSnakeMain) : ScreenAdapter() {
+class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
 
     private val assetManager = game.assetManager
 
@@ -17,6 +19,11 @@ class GameScreen(game: SimpleSnakeMain) : ScreenAdapter() {
     override fun render(delta: Float) {
         controller.update(delta)
         renderer.render(delta)
+
+        if (GameManager.isGameOver()) {
+            GameManager.state = GameState.READY // ready for next round
+            game.screen = MenuScreen(game)
+        }
     }
 
     override fun resize(width: Int, height: Int) {

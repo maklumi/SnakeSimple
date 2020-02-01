@@ -6,5 +6,5 @@ object RegionNames {
     const val BODY = "body"
     const val COIN = "coin"
     const val HEAD = "head"
-
+    const val TITLE = "title"
 }

@@ -47,7 +47,7 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
         renderGamePlay()
         renderUI()
         GameManager.displayScores(delta)
-        renderDebug()
+//        renderDebug()
     }
 
     private fun renderGamePlay() {

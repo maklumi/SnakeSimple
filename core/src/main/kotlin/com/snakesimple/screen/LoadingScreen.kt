@@ -22,7 +22,7 @@ class LoadingScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var changeScreen = false
 
     override fun show() {
-        assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
+//        assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
         assetManager.load(Descriptor.UI_FONT)
         assetManager.load(Descriptor.GAME_PLAY)
         assetManager.load(Descriptor.UI_SKIN)
@@ -33,7 +33,7 @@ class LoadingScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
         update(delta)
         draw()
         if (changeScreen) {
-            game.screen = GameScreen(game) // should always be called when draw finishes
+            game.screen = MenuScreen(game) // should always be called when draw finishes
         }
     }
 
