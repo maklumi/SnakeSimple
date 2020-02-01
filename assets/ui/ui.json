@@ -1,0 +1,10 @@
+{
+  "ButtonStyle": {
+    "play": {
+      "up": "play-button"
+    },
+    "quit": {
+      "up": "quit-button"
+    }
+  }
+}

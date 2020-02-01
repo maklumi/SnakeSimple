@@ -3,6 +3,7 @@ package com.snakesimple.screen
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.snakesimple.SimpleSnakeMain
 import com.snakesimple.assets.Descriptor
@@ -21,7 +22,10 @@ class LoadingScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var changeScreen = false
 
     override fun show() {
+        assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
         assetManager.load(Descriptor.UI_FONT)
+        assetManager.load(Descriptor.GAME_PLAY)
+        assetManager.load(Descriptor.UI_SKIN)
     }
 
     override fun render(delta: Float) {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.snakesimple.assets.Descriptor
+import com.snakesimple.assets.RegionNames
 import com.snakesimple.common.GameManager
 import com.snakesimple.config.GameConfig
 import com.snakesimple.util.ViewportUtils
@@ -26,6 +27,13 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera)
     private val glyphLayout = GlyphLayout()
 
+    private val gamePlayAtlas = assetManager.get(Descriptor.GAME_PLAY)
+    private val bg = gamePlayAtlas.findRegion(RegionNames.BACKGROUND)
+    private val headRegion = gamePlayAtlas.findRegion(RegionNames.HEAD)
+    private val partRegion = gamePlayAtlas.findRegion(RegionNames.BODY)
+    private val coinRegion = gamePlayAtlas.findRegion(RegionNames.COIN)
+    private val coin = controller.coin
+
     init {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
@@ -36,9 +44,34 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
 
         clearScreen(0f, 0f, 0f)
 
+        renderGamePlay()
         renderUI()
         GameManager.displayScores(delta)
         renderDebug()
+    }
+
+    private fun renderGamePlay() {
+        viewport.apply()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+
+        drawGamePlay()
+
+        batch.end()
+    }
+
+    private fun drawGamePlay() {
+        // background
+        batch.draw(bg, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        // coin
+        batch.draw(coinRegion, coin.x, coin.y, coin.width, coin.height)
+        // snake head and body parts
+        val snake = controller.snake
+        snake.bodyParts.forEach { part ->
+            batch.draw(partRegion, part.x, part.y, part.width, part.height)
+        }
+        val head = snake.head
+        batch.draw(headRegion, head.x, head.y, head.width, head.height)
     }
 
     private fun renderUI() {
