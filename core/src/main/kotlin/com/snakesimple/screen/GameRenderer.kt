@@ -46,7 +46,7 @@ class GameRenderer(private val controller: GameController) : Disposable {
     private fun drawDebug() {
         renderer.color = Color.PURPLE
 
-        val head = controller.snakeHead
+        val head = controller.head
         val hb = head.bounds
         renderer.rect(hb.x, hb.y, hb.width, hb.height)
 
