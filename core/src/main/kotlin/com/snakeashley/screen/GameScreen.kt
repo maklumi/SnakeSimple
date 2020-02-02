@@ -52,6 +52,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , WorldWrapSystem()
                 , BoundsSystem()
                 , CoinSpawnSystem()
+                , CollisionSystem(factory)
         )
         systems.forEach { engine.addSystem(it) }
 

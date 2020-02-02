@@ -44,4 +44,21 @@ class EntityFactory(private val engine: PooledEngine) {
         }
     }
 
+    fun createBodyPart(x: Float, y: Float): Entity {
+        return engine.entity {
+            val pos = with<Position> {
+                this.x = x
+                this.y = y
+            }
+            val dim = with<Dimension> {
+                width = GameConfig.SNAKE_SIZE
+                height = GameConfig.SNAKE_SIZE
+            }
+            with<Bounds> {
+                rectangle.setPosition(pos.x, pos.y)
+                rectangle.setSize(dim.width, dim.height)
+            }
+            with<BodyPartComponent>()
+        }
+    }
 }

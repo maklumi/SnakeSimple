@@ -86,3 +86,12 @@ class CoinComponent : Component, Pool.Poolable {
         available = false
     }
 }
+
+class BodyPartComponent : Component, Pool.Poolable {
+    // we need to avoid collision with just added body part
+    var justAdded = true
+
+    override fun reset() {
+        justAdded = true
+    }
+}
