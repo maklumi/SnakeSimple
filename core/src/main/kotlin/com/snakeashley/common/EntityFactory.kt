@@ -23,6 +23,7 @@ class EntityFactory(private val engine: PooledEngine) {
         return engine.entity {
             with<DirectionComponent>()
             with<MovementComponent>()
+            with<PlayerComponent>()
             val position = with<Position>()
             val dimension = with<Dimension> {
                 width = GameConfig.SNAKE_SIZE

@@ -58,6 +58,8 @@ class SnakeComponent : Component, Pool.Poolable {
 class DirectionComponent : Component, Pool.Poolable {
     var direction = Direction.RIGHT
 
+    fun isOpposite(other: Direction): Boolean = direction.isOpposite(other)
+
     override fun reset() {
         direction = Direction.RIGHT
     }
@@ -72,4 +74,8 @@ class MovementComponent : Component, Pool.Poolable {
         xSpeed = 0f
         ySpeed = 0f
     }
+}
+
+class PlayerComponent : Component, Pool.Poolable {
+    override fun reset() = Unit
 }
