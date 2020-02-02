@@ -34,4 +34,14 @@ class EntityFactory(private val engine: PooledEngine) {
             }
         }
     }
+
+    fun createCoin() {
+        engine.entity {
+            with<Position>()
+            with<Dimension>()
+            with<Bounds>()
+            with<CoinComponent>()
+        }
+    }
+
 }

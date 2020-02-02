@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.snakeashley.common.EntityFactory
-import com.snakeashley.system.DirectionSystem
-import com.snakeashley.system.PlayerControlSystem
-import com.snakeashley.system.SnakeMovementSystem
-import com.snakeashley.system.WorldWrapSystem
+import com.snakeashley.system.*
 import com.snakeashley.system.debug.DebugCameraSystem
 import com.snakeashley.system.debug.DebugRenderSystem
 import com.snakeashley.system.debug.GridRenderSystem
@@ -53,10 +50,13 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , SnakeMovementSystem()
                 , PlayerControlSystem()
                 , WorldWrapSystem()
+                , BoundsSystem()
+                , CoinSpawnSystem()
         )
         systems.forEach { engine.addSystem(it) }
 
         snake = factory.createSnake()
+        factory.createCoin()
     }
 
     override fun render(delta: Float) {

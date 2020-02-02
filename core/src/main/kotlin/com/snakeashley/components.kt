@@ -79,3 +79,10 @@ class MovementComponent : Component, Pool.Poolable {
 class PlayerComponent : Component, Pool.Poolable {
     override fun reset() = Unit
 }
+
+class CoinComponent : Component, Pool.Poolable {
+    var available: Boolean = false
+    override fun reset() {
+        available = false
+    }
+}

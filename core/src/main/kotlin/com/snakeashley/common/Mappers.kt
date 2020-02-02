@@ -11,3 +11,5 @@ val SNAKE_COMPONENT = mapperFor<SnakeComponent>()
 
 val DIRECTION = mapperFor<DirectionComponent>()
 val MOVEMENT = mapperFor<MovementComponent>()
+
+val COIN = mapperFor<CoinComponent>()
