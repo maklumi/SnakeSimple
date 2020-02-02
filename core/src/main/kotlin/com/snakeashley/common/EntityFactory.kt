@@ -2,10 +2,7 @@ package com.snakeashley.common
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.PooledEngine
-import com.snakeashley.Bounds
-import com.snakeashley.Dimension
-import com.snakeashley.Position
-import com.snakeashley.SnakeComponent
+import com.snakeashley.*
 import com.snakesimple.config.GameConfig
 import ktx.ashley.entity
 
@@ -24,6 +21,8 @@ class EntityFactory(private val engine: PooledEngine) {
 
     private fun createSnakeHead(): Entity {
         return engine.entity {
+            with<DirectionComponent>()
+            with<MovementComponent>()
             val position = with<Position>()
             val dimension = with<Dimension> {
                 width = GameConfig.SNAKE_SIZE

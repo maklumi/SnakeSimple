@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.Pool
+import com.snakesimple.entity.Direction
 
 class Position : Component, Pool.Poolable {
     var x = 0f
@@ -50,5 +51,25 @@ class SnakeComponent : Component, Pool.Poolable {
         head = Entity()
         bodyParts.clear()
         log.debug("reset done")
+    }
+}
+
+
+class DirectionComponent : Component, Pool.Poolable {
+    var direction = Direction.RIGHT
+
+    override fun reset() {
+        direction = Direction.RIGHT
+    }
+}
+
+
+class MovementComponent : Component, Pool.Poolable {
+    var xSpeed = 0f
+    var ySpeed = 0f
+
+    override fun reset() {
+        xSpeed = 0f
+        ySpeed = 0f
     }
 }

@@ -1,9 +1,6 @@
 package com.snakeashley.common
 
-import com.snakeashley.Bounds
-import com.snakeashley.Dimension
-import com.snakeashley.Position
-import com.snakeashley.SnakeComponent
+import com.snakeashley.*
 import ktx.ashley.mapperFor
 
 val POSITION = mapperFor<Position>()
@@ -11,3 +8,6 @@ val DIMENSION = mapperFor<Dimension>()
 val BOUNDS = mapperFor<Bounds>()
 
 val SNAKE_COMPONENT = mapperFor<SnakeComponent>()
+
+val DIRECTION = mapperFor<DirectionComponent>()
+val MOVEMENT = mapperFor<MovementComponent>()

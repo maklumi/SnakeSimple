@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.snakeashley.common.EntityFactory
+import com.snakeashley.system.DirectionSystem
+import com.snakeashley.system.SnakeMovementSystem
 import com.snakeashley.system.debug.DebugCameraSystem
 import com.snakeashley.system.debug.DebugRenderSystem
 import com.snakeashley.system.debug.GridRenderSystem
@@ -46,6 +48,8 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
 
         val systems = arrayListOf<EntitySystem>(
                 SnakePassiveSystem()
+                , DirectionSystem()
+                , SnakeMovementSystem()
         )
         systems.forEach { engine.addSystem(it) }
 
