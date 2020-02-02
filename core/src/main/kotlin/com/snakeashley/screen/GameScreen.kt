@@ -1,7 +1,6 @@
 package com.snakeashley.screen
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -14,6 +13,7 @@ import com.snakeashley.common.EntityFactory
 import com.snakeashley.system.DirectionSystem
 import com.snakeashley.system.PlayerControlSystem
 import com.snakeashley.system.SnakeMovementSystem
+import com.snakeashley.system.WorldWrapSystem
 import com.snakeashley.system.debug.DebugCameraSystem
 import com.snakeashley.system.debug.DebugRenderSystem
 import com.snakeashley.system.debug.GridRenderSystem
@@ -47,11 +47,12 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
         )
         debugSystems.forEach { engine.addSystem(it) }
 
-        val systems = arrayListOf<EntitySystem>(
+        val systems = arrayListOf(
                 SnakePassiveSystem()
                 , DirectionSystem()
                 , SnakeMovementSystem()
                 , PlayerControlSystem()
+                , WorldWrapSystem()
         )
         systems.forEach { engine.addSystem(it) }
 
