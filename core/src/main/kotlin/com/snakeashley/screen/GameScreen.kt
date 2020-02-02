@@ -1,12 +1,13 @@
 package com.snakeashley.screen
 
-import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.snakeashley.common.EntityFactory
 import com.snakeashley.system.debug.DebugCameraSystem
+import com.snakeashley.system.debug.DebugRenderSystem
 import com.snakeashley.system.debug.GridRenderSystem
 import com.snakesimple.SimpleSnakeMain
 import com.snakesimple.common.GameManager
@@ -24,15 +25,18 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var renderer = ShapeRenderer()
 
     private val engine = PooledEngine()
+    private val factory = EntityFactory(engine)
 
     override fun show() {
 
         val debugSystems = arrayListOf(
                 GridRenderSystem(viewport, renderer)
                 , DebugCameraSystem(camera)
+                , DebugRenderSystem(renderer, viewport)
         )
         debugSystems.forEach { engine.addSystem(it) }
 
+        factory.createSnakeHead()
     }
 
     override fun render(delta: Float) {
