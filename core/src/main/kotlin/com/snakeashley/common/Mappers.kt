@@ -13,3 +13,5 @@ val DIRECTION = mapperFor<DirectionComponent>()
 val MOVEMENT = mapperFor<MovementComponent>()
 
 val COIN = mapperFor<CoinComponent>()
+
+val BODY_PART = mapperFor<BodyPartComponent>()

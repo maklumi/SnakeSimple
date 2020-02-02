@@ -5,9 +5,12 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalSystem
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.math.Intersector
+import com.badlogic.gdx.utils.Array
 import com.snakeashley.CoinComponent
 import com.snakeashley.SnakeComponent
 import com.snakeashley.common.*
+import com.snakesimple.common.GameManager
+import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
 import ktx.ashley.get
 
@@ -36,6 +39,25 @@ class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameC
                     val pos = snakeComponent.head[POSITION]!!
                     val bodyPart = factory.createBodyPart(pos.x, pos.y) // added but not attached to head
                     snakeComponent.bodyParts.insert(0, bodyPart)
+                }
+            }
+        }
+
+        // collision between head <-> body parts
+        for (snakeEntity in snakes) {
+            val snake = snakeEntity[SNAKE_COMPONENT]!!
+
+            val entities = Array.ArrayIterable<Entity>(snake.bodyParts)
+            for (bodyPartEntity in entities) {
+                val bodyPart = bodyPartEntity[BODY_PART]!!
+
+                if (bodyPart.justAdded) {
+                    bodyPart.justAdded = false
+                    continue
+                }
+
+                if (overlaps(snake.head, bodyPartEntity)) {
+                    GameManager.state = GameState.GAME_OVER
                 }
             }
         }
