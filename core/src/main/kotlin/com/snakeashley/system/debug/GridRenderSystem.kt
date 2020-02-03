@@ -3,7 +3,7 @@ package com.snakeashley.system.debug
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.Viewport
-import com.snakesimple.util.ViewportUtils
+import com.util.ViewportUtils
 
 class GridRenderSystem(
         private val viewport: Viewport,

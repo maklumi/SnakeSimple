@@ -24,7 +24,7 @@ import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
 import com.snakesimple.screen.MenuScreen
-import com.snakesimple.util.ViewportUtils
+import com.util.ViewportUtils
 import ktx.app.clearScreen
 
 class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {

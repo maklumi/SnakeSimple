@@ -3,7 +3,7 @@ package com.snakeashley.system.debug
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.snakesimple.config.GameConfig
-import com.snakesimple.util.debug.DebugCameraController
+import com.util.debug.DebugCameraController
 
 
 class DebugCameraSystem(private val camera: OrthographicCamera) : EntitySystem() {

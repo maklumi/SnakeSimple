@@ -1,14 +1,11 @@
 package com.jumper
 
-import com.badlogic.gdx.Game
-import com.badlogic.gdx.assets.AssetManager
 import com.jumper.screen.GameScreen
+import com.util.game.GameBase
 
-class CircleJumperGame : Game() {
+class CircleJumperGame : GameBase() {
 
-    val assetManager = AssetManager()
-
-    override fun create() {
+    override fun postCreate() {
         setScreen(GameScreen(this))
     }
 }

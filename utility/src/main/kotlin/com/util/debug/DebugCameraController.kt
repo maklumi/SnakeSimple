@@ -1,4 +1,4 @@
-package com.snakesimple.util.debug
+package com.util.debug
 
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx

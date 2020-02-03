@@ -1,4 +1,4 @@
-package com.snakesimple.util.debug
+package com.util.debug
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -46,7 +46,7 @@ object DebugCameraConfig {
     private const val DEFAULT_MAX_ZOOM_OUT = 30f
 
     // other
-    private const val FILE_PATH = "debug/debugCameraConfig.json"
+    private const val FILE_PATH = "utility/assets/debug/debugCameraConfig.json"
 
     // attributes
     var maxZoomIn = 0f

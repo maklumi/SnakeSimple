@@ -12,8 +12,8 @@ import com.snakesimple.assets.Descriptor
 import com.snakesimple.assets.RegionNames
 import com.snakesimple.common.GameManager
 import com.snakesimple.config.GameConfig
-import com.snakesimple.util.ViewportUtils
-import com.snakesimple.util.debug.DebugCameraController
+import com.util.ViewportUtils
+import com.util.debug.DebugCameraController
 import ktx.app.clearScreen
 
 class GameRenderer(private val batch: SpriteBatch, private val controller: GameController, assetManager: AssetManager) : Disposable {

@@ -1,6 +1,6 @@
 @file:JvmName("ViewportUtils")
 
-package com.snakesimple.util
+package com.util
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
