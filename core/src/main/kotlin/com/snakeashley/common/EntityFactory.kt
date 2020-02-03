@@ -91,4 +91,20 @@ class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager
             }
         }
     }
+
+    fun createBackground(): Entity {
+        return engine.entity {
+            with<Position>()
+            with<Dimension> {
+                width = GameConfig.WORLD_WIDTH
+                height = GameConfig.WORLD_HEIGHT
+            }
+            with<TextureComponent> {
+                region = gameAtlas.findRegion(RegionNames.BACKGROUND)
+            }
+            with<ZOrderComponent> {
+                z = BACKGROUND_Z_ORDER
+            }
+        }
+    }
 }

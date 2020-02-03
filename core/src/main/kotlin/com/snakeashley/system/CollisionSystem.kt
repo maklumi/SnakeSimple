@@ -9,13 +9,15 @@ import com.badlogic.gdx.utils.Array
 import com.snakeashley.CoinComponent
 import com.snakeashley.SnakeComponent
 import com.snakeashley.common.*
+import com.snakesimple.collision.CollisionListener
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
 import ktx.ashley.get
 
 
-class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameConfig.MOVE_TIME) {
+class CollisionSystem(private val factory: EntityFactory,
+                      private val listener: CollisionListener) : IntervalSystem(GameConfig.MOVE_TIME) {
 
     companion object {
         private val SNAKE_FAMILY: Family = Family.all(SnakeComponent::class.java).get()
@@ -40,6 +42,7 @@ class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameC
                     val bodyPart = factory.createBodyPart(pos.x, pos.y) // added but not attached to head
                     snakeComponent.bodyParts.insert(0, bodyPart)
                     GameManager.score += GameConfig.COIN_SCORE
+                    listener.hitCoin()
                 }
             }
         }
@@ -60,6 +63,7 @@ class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameC
                 if (overlaps(snake.head, bodyPartEntity)) {
                     GameManager.state = GameState.GAME_OVER
                     GameManager.saveHighScore()
+                    listener.lose()
                 }
             }
         }

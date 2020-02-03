@@ -17,6 +17,7 @@ import com.snakeashley.system.debug.GridRenderSystem
 import com.snakeashley.system.passive.SnakePassiveSystem
 import com.snakesimple.SimpleSnakeMain
 import com.snakesimple.assets.Descriptor
+import com.snakesimple.collision.CollisionListener
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
@@ -38,6 +39,17 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private val batch = game.batch
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT)
     private val font = assetManager[Descriptor.UI_FONT]
+    private val coinSound = assetManager.get(Descriptor.COIN_SOUND)
+    private val loseSound = assetManager.get(Descriptor.LOSE_SOUND)
+    private val collisionListener = object : CollisionListener() {
+        override fun hitCoin() {
+            coinSound.play()
+        }
+
+        override fun lose() {
+            loseSound.play()
+        }
+    }
 
     override fun show() {
 
@@ -56,7 +68,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , WorldWrapSystem()
                 , BoundsSystem()
                 , CoinSpawnSystem()
-                , CollisionSystem(factory)
+                , CollisionSystem(factory, collisionListener)
                 , RenderSystem(batch, viewport)
                 , HudRenderSystem(batch, hudViewport, font)
         )
@@ -64,6 +76,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
 
         snake = factory.createSnake()
         factory.createCoin()
+        factory.createBackground()
     }
 
     override fun render(delta: Float) {
