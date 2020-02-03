@@ -15,6 +15,10 @@ class GameRenderer {
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private var renderer = ShapeRenderer()
 
+    private val controller = GameController()
+    private val planet = controller.planet
+    private val monster = controller.monster
+
     init {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
@@ -43,13 +47,20 @@ class GameRenderer {
     }
 
     private fun drawDebug() {
+        // planet
         renderer.color = Color.PURPLE
+        val bounds = planet.bounds
+        renderer.circle(bounds.x, bounds.y, bounds.radius, 30)
 
-        renderer.circle(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, 2.5f, 10)
+        // monster
+        renderer.color = Color.CORAL
+        val mb = monster.bounds
+        renderer.rect(mb.x, mb.y, mb.width, mb.height)
     }
 
     fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
+        ViewportUtils.debugPixelPerUnit(viewport)
     }
 
     fun dispose() {

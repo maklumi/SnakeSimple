@@ -1,6 +1,7 @@
 package com.snakesimple.entity
 
 import com.snakesimple.config.GameConfig
+import com.util.entity.EntityBase
 
 class Coin : EntityBase() {
 

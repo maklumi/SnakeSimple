@@ -1,4 +1,4 @@
-package com.snakesimple.entity
+package com.util.entity
 
 import com.badlogic.gdx.math.Rectangle
 
