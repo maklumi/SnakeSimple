@@ -17,6 +17,7 @@ import com.snakeashley.system.debug.GridRenderSystem
 import com.snakeashley.system.passive.EntityFactorySystem
 import com.snakeashley.system.passive.GameSoundSystem
 import com.snakeashley.system.passive.SnakePassiveSystem
+import com.snakeashley.system.passive.StartUpSystem
 import com.snakesimple.SimpleSnakeMain
 import com.snakesimple.assets.Descriptor
 import com.snakesimple.common.GameManager
@@ -35,7 +36,6 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var renderer = ShapeRenderer()
 
     private val engine = PooledEngine()
-    private lateinit var factory: EntityFactorySystem
     private lateinit var snake: Entity
     private val batch = game.batch
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT)
@@ -64,13 +64,13 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , CollisionSystem()
                 , RenderSystem(batch, viewport)
                 , HudRenderSystem(batch, hudViewport, font)
+                , StartUpSystem()
         )
         systems.forEach { engine.addSystem(it) }
 
-        factory = engine.getSystem(EntityFactorySystem::class.java)
-        snake = factory.createSnake()
-        factory.createCoin()
-        factory.createBackground()
+        val startUpSystem = engine.getSystem(StartUpSystem::class.java)
+        snake = startUpSystem.snake
+
     }
 
     override fun render(delta: Float) {
