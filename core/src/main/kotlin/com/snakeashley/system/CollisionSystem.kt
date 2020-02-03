@@ -1,5 +1,6 @@
 package com.snakeashley.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalSystem
@@ -9,6 +10,7 @@ import com.badlogic.gdx.utils.Array
 import com.snakeashley.CoinComponent
 import com.snakeashley.SnakeComponent
 import com.snakeashley.common.*
+import com.snakeashley.system.passive.EntityFactorySystem
 import com.snakesimple.collision.CollisionListener
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
@@ -16,12 +18,17 @@ import com.snakesimple.config.GameConfig
 import ktx.ashley.get
 
 
-class CollisionSystem(private val factory: EntityFactory,
-                      private val listener: CollisionListener) : IntervalSystem(GameConfig.MOVE_TIME) {
+class CollisionSystem(private val listener: CollisionListener) : IntervalSystem(GameConfig.MOVE_TIME) {
 
     companion object {
         private val SNAKE_FAMILY: Family = Family.all(SnakeComponent::class.java).get()
         private val COIN_FAMILY: Family = Family.all(CoinComponent::class.java).get()
+    }
+
+    private lateinit var factory: EntityFactorySystem
+
+    override fun addedToEngine(engine: Engine) {
+        factory = engine.getSystem(EntityFactorySystem::class.java)
     }
 
     override fun updateInterval() {

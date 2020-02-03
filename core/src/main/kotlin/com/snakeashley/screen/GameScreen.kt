@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
-import com.snakeashley.common.EntityFactory
 import com.snakeashley.system.*
 import com.snakeashley.system.debug.DebugCameraSystem
 import com.snakeashley.system.debug.DebugInputSystem
 import com.snakeashley.system.debug.DebugRenderSystem
 import com.snakeashley.system.debug.GridRenderSystem
+import com.snakeashley.system.passive.EntityFactorySystem
 import com.snakeashley.system.passive.SnakePassiveSystem
 import com.snakesimple.SimpleSnakeMain
 import com.snakesimple.assets.Descriptor
@@ -35,7 +35,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var renderer = ShapeRenderer()
 
     private val engine = PooledEngine()
-    private val factory = EntityFactory(engine, assetManager)
+    private lateinit var factory: EntityFactorySystem
     private lateinit var snake: Entity
     private val batch = game.batch
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT)
@@ -70,12 +70,14 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , WorldWrapSystem()
                 , BoundsSystem()
                 , CoinSpawnSystem()
-                , CollisionSystem(factory, collisionListener)
+                , EntityFactorySystem(assetManager)
+                , CollisionSystem(collisionListener)
                 , RenderSystem(batch, viewport)
                 , HudRenderSystem(batch, hudViewport, font)
         )
         systems.forEach { engine.addSystem(it) }
 
+        factory = engine.getSystem(EntityFactorySystem::class.java)
         snake = factory.createSnake()
         factory.createCoin()
         factory.createBackground()
