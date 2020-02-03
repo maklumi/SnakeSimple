@@ -32,7 +32,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
     private var renderer = ShapeRenderer()
 
     private val engine = PooledEngine()
-    private val factory = EntityFactory(engine)
+    private val factory = EntityFactory(engine, assetManager)
     private lateinit var snake: Entity
 
     override fun show() {
@@ -53,6 +53,7 @@ class GameScreen(private val game: SimpleSnakeMain) : ScreenAdapter() {
                 , BoundsSystem()
                 , CoinSpawnSystem()
                 , CollisionSystem(factory)
+                , RenderSystem(game.batch, viewport)
         )
         systems.forEach { engine.addSystem(it) }
 

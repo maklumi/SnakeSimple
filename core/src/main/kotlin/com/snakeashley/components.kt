@@ -2,6 +2,7 @@ package com.snakeashley
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Logger
@@ -93,5 +94,12 @@ class BodyPartComponent : Component, Pool.Poolable {
 
     override fun reset() {
         justAdded = true
+    }
+}
+
+class TextureComponent : Component, Pool.Poolable {
+    var region: TextureRegion? = null
+    override fun reset() {
+        region = null
     }
 }

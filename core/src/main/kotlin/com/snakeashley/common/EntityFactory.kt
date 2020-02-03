@@ -2,12 +2,17 @@ package com.snakeashley.common
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.PooledEngine
+import com.badlogic.gdx.assets.AssetManager
 import com.snakeashley.*
+import com.snakesimple.assets.Descriptor
+import com.snakesimple.assets.RegionNames
 import com.snakesimple.config.GameConfig
 import ktx.ashley.entity
 
 
-class EntityFactory(private val engine: PooledEngine) {
+class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager) {
+
+    private val gameAtlas = assetManager.get(Descriptor.GAME_PLAY)
 
     // linking snakeHead entity and body part entity
     // be careful to dispose them separately
@@ -32,6 +37,9 @@ class EntityFactory(private val engine: PooledEngine) {
             with<Bounds> {
                 rectangle.set(position.x, position.y, dimension.width, dimension.height)
             }
+            with<TextureComponent> {
+                region = gameAtlas.findRegion(RegionNames.HEAD)
+            }
         }
     }
 
@@ -41,6 +49,9 @@ class EntityFactory(private val engine: PooledEngine) {
             with<Dimension>()
             with<Bounds>()
             with<CoinComponent>()
+            with<TextureComponent> {
+                region = gameAtlas.findRegion(RegionNames.COIN)
+            }
         }
     }
 
@@ -59,6 +70,9 @@ class EntityFactory(private val engine: PooledEngine) {
                 rectangle.setSize(dim.width, dim.height)
             }
             with<BodyPartComponent>()
+            with<TextureComponent> {
+                region = gameAtlas.findRegion(RegionNames.BODY)
+            }
         }
     }
 }
