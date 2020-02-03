@@ -11,14 +11,14 @@ import com.snakeashley.CoinComponent
 import com.snakeashley.SnakeComponent
 import com.snakeashley.common.*
 import com.snakeashley.system.passive.EntityFactorySystem
-import com.snakesimple.collision.CollisionListener
+import com.snakeashley.system.passive.GameSoundSystem
 import com.snakesimple.common.GameManager
 import com.snakesimple.common.GameState
 import com.snakesimple.config.GameConfig
 import ktx.ashley.get
 
 
-class CollisionSystem(private val listener: CollisionListener) : IntervalSystem(GameConfig.MOVE_TIME) {
+class CollisionSystem : IntervalSystem(GameConfig.MOVE_TIME) {
 
     companion object {
         private val SNAKE_FAMILY: Family = Family.all(SnakeComponent::class.java).get()
@@ -26,9 +26,11 @@ class CollisionSystem(private val listener: CollisionListener) : IntervalSystem(
     }
 
     private lateinit var factory: EntityFactorySystem
+    private lateinit var listener: GameSoundSystem
 
     override fun addedToEngine(engine: Engine) {
         factory = engine.getSystem(EntityFactorySystem::class.java)
+        listener = engine.getSystem(GameSoundSystem::class.java)
     }
 
     override fun updateInterval() {
