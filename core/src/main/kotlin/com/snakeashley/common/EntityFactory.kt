@@ -14,6 +14,13 @@ class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager
 
     private val gameAtlas = assetManager.get(Descriptor.GAME_PLAY)
 
+    companion object {
+        private const val BACKGROUND_Z_ORDER = 0
+        private const val COIN_Z_ORDER = 1
+        private const val BODY_Z_ORDER = 2
+        private const val HEAD_Z_ORDER = 3
+    }
+
     // linking snakeHead entity and body part entity
     // be careful to dispose them separately
     fun createSnake(): Entity {
@@ -40,6 +47,9 @@ class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager
             with<TextureComponent> {
                 region = gameAtlas.findRegion(RegionNames.HEAD)
             }
+            with<ZOrderComponent> {
+                z = HEAD_Z_ORDER
+            }
         }
     }
 
@@ -51,6 +61,9 @@ class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager
             with<CoinComponent>()
             with<TextureComponent> {
                 region = gameAtlas.findRegion(RegionNames.COIN)
+            }
+            with<ZOrderComponent> {
+                z = COIN_Z_ORDER
             }
         }
     }
@@ -72,6 +85,9 @@ class EntityFactory(private val engine: PooledEngine, assetManager: AssetManager
             with<BodyPartComponent>()
             with<TextureComponent> {
                 region = gameAtlas.findRegion(RegionNames.BODY)
+            }
+            with<ZOrderComponent> {
+                z = BODY_Z_ORDER
             }
         }
     }

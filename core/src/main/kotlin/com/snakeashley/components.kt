@@ -103,3 +103,10 @@ class TextureComponent : Component, Pool.Poolable {
         region = null
     }
 }
+
+class ZOrderComponent : Component, Pool.Poolable {
+    var z = -1 // undefined value
+    override fun reset() {
+        z = -1
+    }
+}
