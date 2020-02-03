@@ -39,6 +39,7 @@ class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameC
                     val pos = snakeComponent.head[POSITION]!!
                     val bodyPart = factory.createBodyPart(pos.x, pos.y) // added but not attached to head
                     snakeComponent.bodyParts.insert(0, bodyPart)
+                    GameManager.score += GameConfig.COIN_SCORE
                 }
             }
         }
@@ -58,6 +59,7 @@ class CollisionSystem(private val factory: EntityFactory) : IntervalSystem(GameC
 
                 if (overlaps(snake.head, bodyPartEntity)) {
                     GameManager.state = GameState.GAME_OVER
+                    GameManager.saveHighScore()
                 }
             }
         }
