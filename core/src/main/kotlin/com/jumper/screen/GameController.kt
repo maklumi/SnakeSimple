@@ -1,5 +1,7 @@
 package com.jumper.screen
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.jumper.config.GameConfig
 import com.jumper.entity.Monster
 import com.jumper.entity.Planet
@@ -17,6 +19,10 @@ class GameController {
 
     fun update(delta: Float) {
         monster.update(delta)
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && monster.isWalking){
+            monster.jump()
+        }
     }
 
 }

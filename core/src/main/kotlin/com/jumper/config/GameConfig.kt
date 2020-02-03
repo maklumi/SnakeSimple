@@ -19,4 +19,6 @@ object GameConfig {
     const val MONSTER_START_ANG_SPEED = 45f
     const val START_ANGLE = -90f
 
+    const val MONSTER_MAX_SPEED = 2f
+    const val MONSTER_START_ACC = 4f
 }
