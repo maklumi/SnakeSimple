@@ -16,5 +16,7 @@ object GameConfig {
 
     const val MONSTER_SIZE = 1f // world units
     const val MONSTER_HALF_SIZE = MONSTER_SIZE / 2f // world units
+    const val MONSTER_START_ANG_SPEED = 45f
+    const val START_ANGLE = -90f
 
 }

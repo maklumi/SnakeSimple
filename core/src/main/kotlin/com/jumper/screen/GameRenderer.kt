@@ -9,13 +9,12 @@ import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
 import ktx.app.clearScreen
 
-class GameRenderer {
+class GameRenderer(controller: GameController) {
 
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private var renderer = ShapeRenderer()
 
-    private val controller = GameController()
     private val planet = controller.planet
     private val monster = controller.monster
 
@@ -55,7 +54,7 @@ class GameRenderer {
         // monster
         renderer.color = Color.CORAL
         val mb = monster.bounds
-        renderer.rect(mb.x, mb.y, mb.width, mb.height)
+        renderer.rect(mb.x, mb.y, 0f, 0f, mb.width, mb.height, 1f, 1f, GameConfig.MONSTER_START_ANG_SPEED - monster.angleDeg)
     }
 
     fun resize(width: Int, height: Int) {

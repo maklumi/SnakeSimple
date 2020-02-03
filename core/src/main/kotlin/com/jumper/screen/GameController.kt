@@ -16,7 +16,7 @@ class GameController {
     }
 
     fun update(delta: Float) {
-
+        monster.update(delta)
     }
 
 }
