@@ -21,4 +21,8 @@ object GameConfig {
 
     const val MONSTER_MAX_SPEED = 2f
     const val MONSTER_START_ACC = 4f
+
+    const val COIN_SIZE = 1f // world units
+    const val COIN_SPAWN_TIME = 1.25f
+
 }
