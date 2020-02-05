@@ -5,6 +5,9 @@ object GameConfig {
     const val WIDTH = 600f // pixels
     const val HEIGHT = 800f // pixels
 
+    const val HUD_WIDTH = 600f // world units
+    const val HUD_HEIGHT = 800f // world units
+
     const val WORLD_WIDTH = 16f // world units
     const val WORLD_HEIGHT = 24f // world units
 

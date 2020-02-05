@@ -6,7 +6,7 @@ import com.util.game.GameBase
 class GameScreen(game: GameBase) : ScreenAdapter() {
 
     private val controller = GameController()
-    private val renderer = GameRenderer(controller)
+    private val renderer = GameRenderer(controller, game)
 
     override fun render(delta: Float) {
         controller.update(delta)

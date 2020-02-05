@@ -2,18 +2,29 @@ package com.jumper.screen
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.jumper.assets.AssetDescriptors
+import com.jumper.common.GameManager
 import com.jumper.config.GameConfig
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
+import com.util.game.GameBase
 import ktx.app.clearScreen
 
-class GameRenderer(private val controller: GameController) {
+class GameRenderer(private val controller: GameController, game: GameBase) {
 
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private var renderer = ShapeRenderer()
+
+    private val batch = game.batch
+    private val assetManager = game.assetManager
+    private val font = assetManager.get(AssetDescriptors.FONT)
+    private val hudCamera = OrthographicCamera()
+    private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera)
+    private val glyphLayout = GlyphLayout()
 
     private val planet = controller.planet
     private val monster = controller.monster
@@ -28,7 +39,23 @@ class GameRenderer(private val controller: GameController) {
 
         clearScreen(0f, 0f, 0f)
 
+        renderUI()
         renderDebug()
+    }
+
+    private fun renderUI() {
+        hudViewport.apply() // because using multiple viewports
+        batch.projectionMatrix = hudCamera.combined
+        batch.begin()
+
+        glyphLayout.setText(font, "HIGH SCORE: ${GameManager.displayHighScore}")
+        font.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
+
+        glyphLayout.setText(font, "SCORE: ${GameManager.displayScore}")
+        font.draw(batch, glyphLayout, GameConfig.HUD_WIDTH - glyphLayout.width - 20f,
+                  GameConfig.HUD_HEIGHT - glyphLayout.height)
+
+        batch.end()
     }
 
     private fun renderDebug() {
@@ -68,6 +95,7 @@ class GameRenderer(private val controller: GameController) {
 
     fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
+        hudViewport.update(width, height, true)
         ViewportUtils.debugPixelPerUnit(viewport)
     }
 
