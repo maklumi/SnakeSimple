@@ -133,6 +133,7 @@ class GameController {
         obstaclePool.freeAll(obstacles)
         obstacles.clear()
         monster.reset()
+        GameManager.saveHighScore()
         GameManager.reset()
         startWaitTimer = GameConfig.START_WAIT_TIME
     }

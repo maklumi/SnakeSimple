@@ -1,5 +1,6 @@
 package com.jumper.common
 
+import com.badlogic.gdx.Gdx
 import com.snakesimple.common.GameManager
 
 
@@ -11,10 +12,20 @@ object GameManager {
             if (field > highScore) highScore = field
         }
 
-    private var highScore = 0
-
     var displayScore = 0
-    var displayHighScore = 0
+
+    private val prefs = Gdx.app.getPreferences("CircleJumperGame") // inside user/.prefs/
+    private const val HIGH_SCORE = "highScore"
+    private var highScore = prefs.getInteger(HIGH_SCORE, 0)
+    var displayHighScore = highScore
+
+    fun saveHighScore() {
+        if (score < highScore) return
+
+        highScore = score
+        prefs.putInteger(HIGH_SCORE, highScore)
+        prefs.flush()
+    }
 
     fun displayScores(delta: Float) {
         if (displayScore < score)

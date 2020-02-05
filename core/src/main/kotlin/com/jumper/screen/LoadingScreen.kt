@@ -3,6 +3,7 @@ package com.jumper.screen
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.jumper.assets.AssetDescriptors
 import com.jumper.config.GameConfig
@@ -25,8 +26,9 @@ class LoadingScreen(private val game: GameBase) : ScreenAdapter() {
     }
 
     override fun show() {
-//        assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
+        assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
         assetManager.load(AssetDescriptors.FONT)
+        assetManager.load(AssetDescriptors.GAME_PLAY)
 
     }
 
