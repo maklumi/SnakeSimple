@@ -19,10 +19,10 @@ object AssetPackerCircleJump {
         TexturePacker.process(settings, "$source/gameplay", "$destination/gameplay", "gameplay")
 
 
-//        TexturePacker.process(settings,
-//                              "$source/ui",
-//                              "$destination/ui",
-//                              "ui")
+        TexturePacker.process(settings,
+                              "$source/ui",
+                              "$destination/ui",
+                              "ui")
 
     }
 
