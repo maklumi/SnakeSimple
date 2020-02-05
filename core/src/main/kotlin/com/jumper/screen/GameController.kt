@@ -3,11 +3,13 @@ package com.jumper.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.MathUtils
-import com.jumper.config.GameConfig
-import com.jumper.entity.Monster
-import com.jumper.entity.Planet
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pools
+import com.jumper.config.GameConfig
 import com.jumper.entity.Coin
+import com.jumper.entity.Monster
+import com.jumper.entity.Obstacle
+import com.jumper.entity.Planet
 
 class GameController {
 
@@ -21,7 +23,11 @@ class GameController {
     }
 
     val coins = Array<Coin>()
+    private val coinPool = Pools.get(Coin::class.java, 10)
     private var coinTimer = 0f
+    val obstacles = Array<Obstacle>()
+    private val obstaclePool = Pools.get(Obstacle::class.java, 10)
+    private var obstacleTimer = 0f
 
     fun update(delta: Float) {
         monster.update(delta)
@@ -31,11 +37,17 @@ class GameController {
         }
 
         coins.forEach { coin -> coin.update(delta) }
+        obstacles.forEach { obstacle -> obstacle.update(delta) }
         spawnCoin(delta)
+        spawnObstacles(delta)
     }
 
     private fun spawnCoin(delta: Float) {
         coinTimer += delta
+        if (coins.size >= GameConfig.MAX_COINS) {
+            coinTimer = 0f
+            return
+        }
         if (coinTimer < GameConfig.COIN_SPAWN_TIME) {
             return
         }
@@ -46,10 +58,28 @@ class GameController {
 
     private fun addCoin() {
         val randomAngle = MathUtils.random(360f)
-        val coin = Coin()
+        val coin = coinPool.obtain()
         coin.offset = true
         coin.angleDeg = randomAngle
         coins.add(coin)
     }
 
+    private fun spawnObstacles(delta: Float) {
+        obstacleTimer += delta
+
+        // only max obstacles allowed
+        if (obstacles.size >= GameConfig.MAX_OBSTACLES) {
+            obstacleTimer = 0f
+            return
+        }
+
+        if (obstacleTimer > GameConfig.OBSTACLE_SPAWN_TIME) {
+            obstacleTimer = 0f
+            val obstacle = obstaclePool.obtain()
+            val randomAngle = MathUtils.random(360f)
+            obstacle.angleDeg = randomAngle
+            obstacles.add(obstacle)
+        }
+
+    }
 }

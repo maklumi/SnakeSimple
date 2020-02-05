@@ -27,5 +27,10 @@ object GameConfig {
 
     const val COIN_SIZE = 1f // world units
     const val COIN_SPAWN_TIME = 1.25f
+    const val MAX_COINS = 4
+
+    const val OBSTACLE_SIZE = 1f // world units
+    const val OBSTACLE_SPAWN_TIME = 0.75f
+    const val MAX_OBSTACLES = 4
 
 }

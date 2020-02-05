@@ -28,6 +28,7 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
 
     private val planet = controller.planet
     private val monster = controller.monster
+    private val obstacles = controller.obstacles
 
     init {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
@@ -90,6 +91,21 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
             renderer.rect(c.bounds.x, c.bounds.y, 0f, 0f,
                           c.bounds.width, c.bounds.height, c.scale, c.scale,
                           GameConfig.START_ANGLE - c.angleDeg)
+        }
+
+        // obstacles
+        obstacles.forEach { obstacle ->
+            renderer.color = Color.GREEN
+            // obstacle
+            val ob = obstacle.bounds
+            renderer.rect(ob.x, ob.y, 0f, 0f, ob.width, ob.height, 1f, 1f,
+                          GameConfig.START_ANGLE - obstacle.angleDeg)
+
+            // sensor
+            renderer.color = Color.RED
+            val sb = obstacle.sensor
+            renderer.rect(sb.x, sb.y, 0f, 0f, sb.width, sb.height, 1f, 1f,
+                          GameConfig.START_ANGLE - obstacle.angleDeg)
         }
     }
 
