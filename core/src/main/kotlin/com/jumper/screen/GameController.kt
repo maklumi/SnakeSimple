@@ -19,7 +19,7 @@ class GameController {
 
     val planet = Planet().apply {
         setSize(GameConfig.PLANET_SIZE, GameConfig.PLANET_SIZE)
-        setPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
+        setPosition(GameConfig.WORLD_CENTER_X - GameConfig.PLANET_HALF_SIZE, GameConfig.WORLD_CENTER_Y - GameConfig.PLANET_HALF_SIZE)
     }
 
     val monster = Monster()

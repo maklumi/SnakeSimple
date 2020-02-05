@@ -2,10 +2,14 @@ package com.jumper.screen
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.jumper.assets.AssetDescriptors
+import com.jumper.assets.RegionNames
 import com.jumper.common.GameManager
 import com.jumper.config.GameConfig
 import com.util.ViewportUtils
@@ -30,6 +34,16 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
     private val monster = controller.monster
     private val obstacles = controller.obstacles
 
+    // adding textures
+    private val atlas = assetManager.get(AssetDescriptors.GAME_PLAY)
+    private val backgroundRegion = atlas.findRegion(RegionNames.BACKGROUND)
+    private val planetRegion = atlas.findRegion(RegionNames.PLANET)
+    // adding animations
+    private val obstacleAnimation = Animation(0.1f, atlas.findRegions(RegionNames.OBSTACLE), PlayMode.LOOP_PINGPONG)
+    private val coinAnimation = Animation(0.2f, atlas.findRegions(RegionNames.COIN), PlayMode.LOOP_PINGPONG)
+    private val monsterAnimation = Animation(0.05f, atlas.findRegions(RegionNames.PLAYER), PlayMode.LOOP_PINGPONG)
+    private var animationTime = 0f
+
     init {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
@@ -39,9 +53,57 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
         DebugCameraController.applyTo(camera)
 
         clearScreen(0f, 0f, 0f)
-
+        renderGamePlay(delta)
         renderUI()
         renderDebug()
+    }
+
+    private fun renderGamePlay(delta: Float) {
+        viewport.apply()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        drawGamePlay(delta)
+        batch.end()
+    }
+
+    private fun drawGamePlay(delta: Float) {
+        animationTime += delta
+
+        // background
+        batch.draw(backgroundRegion, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        // obstacles
+        val obstacleRegion = obstacleAnimation.getKeyFrame(animationTime)
+        val obstacles = controller.obstacles
+        obstacles.forEach { obstacle ->
+            batch.draw(obstacleRegion,
+                       obstacle.x, obstacle.y, 0f, 0f,
+                       obstacle.width, obstacle.height, 1.0f, 1.0f,
+                       GameConfig.START_ANGLE - obstacle.angleDeg
+            )
+        }
+        // planet
+        val planet = controller.planet
+        batch.draw(planetRegion, planet.x, planet.y, planet.width, planet.height)
+        // coins
+        val coins = controller.coins
+        val coinRegion: TextureRegion = coinAnimation.getKeyFrame(animationTime)
+        coins.forEach { coin ->
+            batch.draw(coinRegion,
+                       coin.x, coin.y, 0f, 0f,
+                       coin.width, coin.height,
+                       coin.scale, coin.scale,
+                       GameConfig.START_ANGLE - coin.angleDeg
+            )
+        }
+        // monster
+        val monster = controller.monster
+        val monsterRegion: TextureRegion = monsterAnimation.getKeyFrame(animationTime)
+        batch.draw(monsterRegion,
+                   monster.x, monster.y, 0f, 0f,
+                   monster.width, monster.height,
+                   1.0f, 1.0f,
+                   GameConfig.START_ANGLE - monster.angleDeg
+        )
     }
 
     private fun renderUI() {

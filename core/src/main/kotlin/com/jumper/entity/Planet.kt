@@ -14,7 +14,7 @@ class Planet {
     private val radius = GameConfig.PLANET_HALF_SIZE
 
     val bounds: Circle
-        get() = Circle(x, y, radius)
+        get() = Circle(x + radius, y + radius, radius)
 
     fun setSize(width: Float, height: Float) {
         this.width = width
