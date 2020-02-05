@@ -22,7 +22,7 @@ object GameConfig {
     const val MONSTER_START_ANG_SPEED = 45f
     const val START_ANGLE = -90f
 
-    const val MONSTER_MAX_SPEED = 2f
+    const val MONSTER_MAX_SPEED = 3f
     const val MONSTER_START_ACC = 4f
 
     const val COIN_SIZE = 1f // world units
@@ -36,5 +36,6 @@ object GameConfig {
     const val OBSTACLE_SCORE = 5
 
     const val START_WAIT_TIME = 3f
+    const val MIN_ANG_DIST = 60f
 
 }

@@ -12,6 +12,8 @@ import com.jumper.entity.Coin
 import com.jumper.entity.Monster
 import com.jumper.entity.Obstacle
 import com.jumper.entity.Planet
+import kotlin.math.abs
+
 
 class GameController {
 
@@ -52,43 +54,53 @@ class GameController {
 
     private fun spawnCoin(delta: Float) {
         coinTimer += delta
-        if (coins.size >= GameConfig.MAX_COINS) {
-            coinTimer = 0f
-            return
-        }
+
         if (coinTimer < GameConfig.COIN_SPAWN_TIME) {
             return
         }
 
         coinTimer = 0f
-        addCoin()
+        if (coins.isEmpty) addCoin()
     }
 
     private fun addCoin() {
-        val randomAngle = MathUtils.random(360f)
-        val coin = coinPool.obtain()
-        coin.offset = true
-        coin.angleDeg = randomAngle
-        coins.add(coin)
+        val count = MathUtils.random(GameConfig.MAX_COINS)
+        repeat(count) {
+            val randomAngle = MathUtils.random(360f)
+
+            val canSpawn = !isCoinNearBy(randomAngle) && !isMonsterNearBy(randomAngle)
+            if (canSpawn) {
+                val coin = coinPool.obtain()
+                if (isObstacleNearBy(randomAngle)) coin.offset = true
+                coin.angleDeg = randomAngle
+                coins.add(coin)
+            }
+        }
     }
 
     private fun spawnObstacles(delta: Float) {
         obstacleTimer += delta
 
-        // only max obstacles allowed
-        if (obstacles.size >= GameConfig.MAX_OBSTACLES) {
-            obstacleTimer = 0f
-            return
-        }
-
         if (obstacleTimer > GameConfig.OBSTACLE_SPAWN_TIME) {
             obstacleTimer = 0f
-            val obstacle = obstaclePool.obtain()
-            val randomAngle = MathUtils.random(360f)
-            obstacle.angleDeg = randomAngle
-            obstacles.add(obstacle)
+            if (obstacles.isEmpty) addObstacles()
         }
 
+    }
+
+    private fun addObstacles() {
+        val count = MathUtils.random(2, GameConfig.MAX_OBSTACLES)
+        for (i in 0 until count) {
+            val randomAngle = monster.angleDeg - i * GameConfig.MIN_ANG_DIST - MathUtils.random(60, 80)
+            val canSpawn = (!isObstacleNearBy(randomAngle)
+                    && !isCoinNearBy(randomAngle)
+                    && !isMonsterNearBy(randomAngle))
+            if (canSpawn) {
+                val obstacle = obstaclePool.obtain()
+                obstacle.angleDeg = randomAngle
+                obstacles.add(obstacle)
+            }
+        }
     }
 
     private fun checkCollision() {
@@ -123,6 +135,28 @@ class GameController {
         monster.reset()
         GameManager.reset()
         startWaitTimer = GameConfig.START_WAIT_TIME
+    }
+
+    private fun isCoinNearBy(angle: Float): Boolean {
+        // check that there are no coins nearby min dist
+        return coins.any { coin ->
+            val angleDeg: Float = coin.angleDeg
+            val diff = abs(abs(angleDeg) - abs(angle))
+            diff < GameConfig.MIN_ANG_DIST
+        }
+    }
+
+    private fun isMonsterNearBy(angle: Float): Boolean {
+        val playerDiff = abs(abs(monster.angleDeg) - abs(angle))
+        return playerDiff < GameConfig.MIN_ANG_DIST
+    }
+
+    private fun isObstacleNearBy(angle: Float): Boolean {
+        return obstacles.any { obstacle ->
+            val angleDeg = abs(obstacle.angleDeg)
+            val diff = abs(angleDeg - abs(angle))
+            diff < GameConfig.MIN_ANG_DIST
+        }
     }
 
 }
