@@ -36,6 +36,7 @@ class Coin : EntityBase(), Poolable {
     override fun reset() {
         offset = false
         scale = 0.0f
+        angleDeg = MathUtils.random(360f)
     }
 
     override fun initSize() {

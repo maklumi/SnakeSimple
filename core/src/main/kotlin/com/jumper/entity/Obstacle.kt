@@ -37,6 +37,7 @@ class Obstacle : EntityBase(), Poolable {
 
     override fun reset() {
         radius = GameConfig.PLANET_HALF_SIZE - GameConfig.OBSTACLE_SIZE
+        angleDeg =  MathUtils.random(360f)
     }
 
     override fun initSize() {

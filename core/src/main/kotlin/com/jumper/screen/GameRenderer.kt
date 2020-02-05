@@ -56,6 +56,19 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
         font.draw(batch, glyphLayout, GameConfig.HUD_WIDTH - glyphLayout.width - 20f,
                   GameConfig.HUD_HEIGHT - glyphLayout.height)
 
+
+        val startWaitTimer = controller.startWaitTimer
+
+        if (startWaitTimer >= 0) {
+            val waitTime = startWaitTimer.toInt()
+            val waitTimeString = if (waitTime == 0) "GO!" else "$waitTime"
+            glyphLayout.setText(font, waitTimeString)
+            font.draw(batch, glyphLayout,
+                      (GameConfig.HUD_WIDTH - glyphLayout.width) / 2f,
+                      (GameConfig.HUD_HEIGHT + glyphLayout.height) / 2f
+            )
+        }
+
         batch.end()
     }
 

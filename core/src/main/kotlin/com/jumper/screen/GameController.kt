@@ -2,9 +2,11 @@ package com.jumper.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pools
+import com.jumper.common.GameManager
 import com.jumper.config.GameConfig
 import com.jumper.entity.Coin
 import com.jumper.entity.Monster
@@ -18,9 +20,7 @@ class GameController {
         setPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
 
-    val monster = Monster().apply {
-        setPosition(GameConfig.WORLD_CENTER_X - GameConfig.MONSTER_HALF_SIZE, GameConfig.WORLD_CENTER_Y + GameConfig.PLANET_HALF_SIZE)
-    }
+    val monster = Monster()
 
     val coins = Array<Coin>()
     private val coinPool = Pools.get(Coin::class.java, 10)
@@ -29,7 +29,13 @@ class GameController {
     private val obstaclePool = Pools.get(Obstacle::class.java, 10)
     private var obstacleTimer = 0f
 
+    var startWaitTimer = GameConfig.START_WAIT_TIME
+
     fun update(delta: Float) {
+        if (startWaitTimer > 0f) {
+            startWaitTimer -= delta
+            return
+        }
         monster.update(delta)
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && monster.isWalking) {
@@ -40,6 +46,8 @@ class GameController {
         obstacles.forEach { obstacle -> obstacle.update(delta) }
         spawnCoin(delta)
         spawnObstacles(delta)
+        checkCollision()
+        GameManager.displayScores(delta)
     }
 
     private fun spawnCoin(delta: Float) {
@@ -82,4 +90,39 @@ class GameController {
         }
 
     }
+
+    private fun checkCollision() {
+        // player <-> coins
+        val coins = Array.ArrayIterable<Coin>(coins)
+        for (coin in coins) {
+            if (Intersector.overlaps(monster.bounds, coin.bounds)) {
+                GameManager.score += GameConfig.COIN_SCORE
+                coinPool.free(coin)
+                this.coins.removeValue(coin, true)
+            }
+        }
+
+        // player <-> obstacle
+        val obstacles = Array.ArrayIterable<Obstacle>(this.obstacles)
+        for (obstacle in obstacles) {
+            if (Intersector.overlaps(monster.bounds, obstacle.sensor)) {
+                GameManager.score += GameConfig.OBSTACLE_SCORE
+                obstaclePool.free(obstacle)
+                this.obstacles.removeValue(obstacle, true)
+            } else if (Intersector.overlaps(monster.bounds, obstacle.bounds)) {
+                restart()
+            }
+        }
+    }
+
+    private fun restart() {
+        coinPool.freeAll(coins)
+        coins.clear()
+        obstaclePool.freeAll(obstacles)
+        obstacles.clear()
+        monster.reset()
+        GameManager.reset()
+        startWaitTimer = GameConfig.START_WAIT_TIME
+    }
+
 }

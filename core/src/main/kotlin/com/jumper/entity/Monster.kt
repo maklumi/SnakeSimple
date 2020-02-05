@@ -19,6 +19,8 @@ class Monster : EntityBase() {
 
     override fun initSize() {
         setSize(GameConfig.MONSTER_SIZE, GameConfig.MONSTER_SIZE)
+        setPosition(GameConfig.WORLD_CENTER_X - GameConfig.MONSTER_HALF_SIZE,
+                    GameConfig.WORLD_CENTER_Y + GameConfig.PLANET_HALF_SIZE)
     }
 
     fun update(delta: Float) {
@@ -59,5 +61,10 @@ class Monster : EntityBase() {
 
     private fun walk() {
         state = MonsterState.WALKING
+    }
+
+    fun reset() {
+        angleDeg = GameConfig.START_ANGLE
+        initSize()
     }
 }
