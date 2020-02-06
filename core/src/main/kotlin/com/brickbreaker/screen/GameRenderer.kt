@@ -7,9 +7,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.brickbreaker.config.GameConfig
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
+import com.util.debug.ShapeRendererUtils
 import ktx.app.clearScreen
 
-class GameRenderer {
+class GameRenderer(private val controller: GameController) {
 
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
@@ -35,7 +36,8 @@ class GameRenderer {
     private fun drawDebug() {
         val oldColor = renderer.color.cpy()
         renderer.color = Color.GOLDENROD
-        renderer.circle(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, 3f)
+        val paddleBound = controller.paddle.bounds
+        ShapeRendererUtils.rect(renderer, paddleBound)
         renderer.color = oldColor
     }
 
