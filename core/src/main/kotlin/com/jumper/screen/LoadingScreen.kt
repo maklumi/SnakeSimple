@@ -29,7 +29,7 @@ class LoadingScreen(private val game: GameBase) : ScreenAdapter() {
         assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
         assetManager.load(AssetDescriptors.FONT)
         assetManager.load(AssetDescriptors.GAME_PLAY)
-
+        assetManager.load(AssetDescriptors.SKIN)
     }
 
     override fun render(delta: Float) {

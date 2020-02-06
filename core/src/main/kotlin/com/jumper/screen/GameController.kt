@@ -7,11 +7,13 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pools
 import com.jumper.common.GameManager
+import com.jumper.common.GameState
 import com.jumper.config.GameConfig
 import com.jumper.entity.Coin
 import com.jumper.entity.Monster
 import com.jumper.entity.Obstacle
 import com.jumper.entity.Planet
+import com.jumper.screen.menu.OverlayCallback
 import kotlin.math.abs
 
 
@@ -33,11 +35,26 @@ class GameController {
 
     var startWaitTimer = GameConfig.START_WAIT_TIME
 
-    fun update(delta: Float) {
-        if (startWaitTimer > 0f) {
-            startWaitTimer -= delta
-            return
+    var gameState = GameState.MENU
+
+    val callback = object : OverlayCallback {
+        override fun home() {
+            gameState = GameState.MENU
         }
+
+        override fun ready() {
+            gameState = GameState.READY
+        }
+    }
+
+    fun update(delta: Float) {
+        if (gameState.isReady() && startWaitTimer > 0f) {
+            startWaitTimer -= delta
+            if (startWaitTimer <= 0f) gameState = GameState.PLAYING
+        }
+
+        if (!gameState.isPlaying()) return
+
         monster.update(delta)
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && monster.isWalking) {
@@ -122,7 +139,7 @@ class GameController {
                 obstaclePool.free(obstacle)
                 this.obstacles.removeValue(obstacle, true)
             } else if (Intersector.overlaps(monster.bounds, obstacle.bounds)) {
-                restart()
+                gameState = GameState.GAME_OVER
             }
         }
     }
@@ -136,6 +153,7 @@ class GameController {
         GameManager.saveHighScore()
         GameManager.reset()
         startWaitTimer = GameConfig.START_WAIT_TIME
+        gameState = GameState.READY
     }
 
     private fun isCoinNearBy(angle: Float): Boolean {

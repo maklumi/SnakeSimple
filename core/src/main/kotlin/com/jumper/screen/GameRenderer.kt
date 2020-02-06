@@ -1,5 +1,6 @@
 package com.jumper.screen
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Animation
@@ -7,15 +8,19 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.jumper.assets.AssetDescriptors
 import com.jumper.assets.RegionNames
 import com.jumper.common.GameManager
 import com.jumper.config.GameConfig
+import com.jumper.screen.menu.GameOverOverlay
+import com.jumper.screen.menu.MenuOverlay
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
 import com.util.game.GameBase
 import ktx.app.clearScreen
+
 
 class GameRenderer(private val controller: GameController, game: GameBase) {
 
@@ -44,8 +49,17 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
     private val monsterAnimation = Animation(0.05f, atlas.findRegions(RegionNames.PLAYER), PlayMode.LOOP_PINGPONG)
     private var animationTime = 0f
 
+    private val hudStage = Stage(hudViewport, batch)
+    private val skin = assetManager[AssetDescriptors.SKIN]
+    private val menuOverlay = MenuOverlay(skin, controller.callback)
+    private val gameOverOverlay = GameOverOverlay(skin, controller.callback)
+
     init {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
+        hudStage.addActor(menuOverlay)
+        hudStage.addActor(gameOverOverlay)
+//        hudStage.isDebugAll = true
+        Gdx.input.inputProcessor = hudStage
     }
 
     fun render(delta: Float) {
@@ -55,7 +69,7 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
         clearScreen(0f, 0f, 0f)
         renderGamePlay(delta)
         renderUI()
-        renderDebug()
+//        renderDebug()
     }
 
     private fun renderGamePlay(delta: Float) {
@@ -108,9 +122,30 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
 
     private fun renderUI() {
         hudViewport.apply() // because using multiple viewports
-        batch.projectionMatrix = hudCamera.combined
-        batch.begin()
+        menuOverlay.isVisible = false
+        gameOverOverlay.isVisible = false
+        val gameState = controller.gameState
+        if (gameState.isPlayingOrReady()) {
+            batch.projectionMatrix = hudCamera.combined
+            batch.begin()
+            drawHud()
+            batch.end()
+            return
+        }
 
+        if (gameState.isMenu() && !menuOverlay.isVisible) {
+            menuOverlay.updateLabel()
+            menuOverlay.isVisible = true
+        } else if (gameState.isGameOver() && !gameOverOverlay.isVisible) {
+            gameOverOverlay.updateLabels()
+            gameOverOverlay.isVisible = true
+        }
+
+        hudStage.act()
+        hudStage.draw()
+    }
+
+    private fun drawHud() {
         glyphLayout.setText(font, "HIGH SCORE: ${GameManager.displayHighScore}")
         font.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
 
@@ -130,8 +165,6 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
                       (GameConfig.HUD_HEIGHT + glyphLayout.height) / 2f
             )
         }
-
-        batch.end()
     }
 
     private fun renderDebug() {

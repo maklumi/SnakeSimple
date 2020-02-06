@@ -8,4 +8,5 @@ dependencies {
     api "io.github.libktx:ktx-app:$ktxAppVersion"
     api "com.badlogicgames.ashley:ashley:$ashleyVersion"
     api "io.github.libktx:ktx-ashley:$ktxAppVersion"
+    api "io.github.libktx:ktx-actors:$ktxAppVersion"
 }

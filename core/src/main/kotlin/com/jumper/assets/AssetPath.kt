@@ -6,4 +6,6 @@ object AssetPath {
 
     const val GAME_PLAY = "assets-jumper/gameplay/gameplay.atlas"
 
+    const val SKIN = "assets-jumper/ui/ui.json"
+
 }
