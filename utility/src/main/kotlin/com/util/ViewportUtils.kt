@@ -13,7 +13,7 @@ object ViewportUtils {
     private const val DEFAULT_CELL_SIZE = 1
 
     fun drawGrid(viewport: Viewport, renderer: ShapeRenderer, sizeOfCell: Int = DEFAULT_CELL_SIZE) {
-        val cellSize = if (sizeOfCell < DEFAULT_CELL_SIZE) sizeOfCell else DEFAULT_CELL_SIZE
+        val cellSize = if (sizeOfCell < DEFAULT_CELL_SIZE)  DEFAULT_CELL_SIZE else sizeOfCell
 
         // copy old color from render
         val oldColor = Color(renderer.color)
