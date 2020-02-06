@@ -8,4 +8,7 @@ object AssetPath {
 
     const val SKIN = "assets-jumper/ui/ui.json"
 
+    const val COIN = "assets-jumper/sounds/coin.wav"
+    const val JUMP = "assets-jumper/sounds/jump.wav"
+    const val LOSE = "assets-jumper/sounds/lose.wav"
 }

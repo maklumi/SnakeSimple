@@ -6,8 +6,10 @@ import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pools
+import com.jumper.common.FloatingScore
 import com.jumper.common.GameManager
 import com.jumper.common.GameState
+import com.jumper.common.SoundManager
 import com.jumper.config.GameConfig
 import com.jumper.entity.Coin
 import com.jumper.entity.Monster
@@ -17,14 +19,14 @@ import com.jumper.screen.menu.OverlayCallback
 import kotlin.math.abs
 
 
-class GameController {
+class GameController(private val soundManager: SoundManager) {
 
     val planet = Planet().apply {
         setSize(GameConfig.PLANET_SIZE, GameConfig.PLANET_SIZE)
         setPosition(GameConfig.WORLD_CENTER_X - GameConfig.PLANET_HALF_SIZE, GameConfig.WORLD_CENTER_Y - GameConfig.PLANET_HALF_SIZE)
     }
 
-    val monster = Monster()
+    val monster = Monster().apply { reset() }
 
     val coins = Array<Coin>()
     private val coinPool = Pools.get(Coin::class.java, 10)
@@ -43,9 +45,13 @@ class GameController {
         }
 
         override fun ready() {
+            restart()
             gameState = GameState.READY
         }
     }
+
+    val floatingScores = Array<FloatingScore>()
+    private val floatingScorePool = Pools.get(FloatingScore::class.java)
 
     fun update(delta: Float) {
         if (gameState.isReady() && startWaitTimer > 0f) {
@@ -59,10 +65,18 @@ class GameController {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && monster.isWalking) {
             monster.jump()
+            soundManager.playSound(SoundManager.SoundType.JUMP)
         }
 
         coins.forEach { coin -> coin.update(delta) }
         obstacles.forEach { obstacle -> obstacle.update(delta) }
+        floatingScores.forEach { fScore->
+            fScore.update(delta)
+            if (fScore.isFinished()){
+                floatingScorePool.free(fScore)
+                floatingScores.removeValue(fScore, true)
+            }
+        }
         spawnCoin(delta)
         spawnObstacles(delta)
         checkCollision()
@@ -128,6 +142,8 @@ class GameController {
                 GameManager.score += GameConfig.COIN_SCORE
                 coinPool.free(coin)
                 this.coins.removeValue(coin, true)
+                soundManager.playSound(SoundManager.SoundType.COIN)
+                addFloatingScore(GameConfig.COIN_SCORE)
             }
         }
 
@@ -136,10 +152,12 @@ class GameController {
         for (obstacle in obstacles) {
             if (Intersector.overlaps(monster.bounds, obstacle.sensor)) {
                 GameManager.score += GameConfig.OBSTACLE_SCORE
+                addFloatingScore(GameConfig.OBSTACLE_SCORE)
                 obstaclePool.free(obstacle)
                 this.obstacles.removeValue(obstacle, true)
             } else if (Intersector.overlaps(monster.bounds, obstacle.bounds)) {
                 gameState = GameState.GAME_OVER
+                soundManager.playSound(SoundManager.SoundType.LOSE)
             }
         }
     }
@@ -150,6 +168,8 @@ class GameController {
         obstaclePool.freeAll(obstacles)
         obstacles.clear()
         monster.reset()
+        floatingScorePool.freeAll(floatingScores)
+        floatingScores.clear()
         GameManager.saveHighScore()
         GameManager.reset()
         startWaitTimer = GameConfig.START_WAIT_TIME
@@ -178,4 +198,10 @@ class GameController {
         }
     }
 
+    private fun addFloatingScore(score: Int) {
+        val floatingScore = floatingScorePool.obtain()
+        floatingScore.setStartPosition(GameConfig.HUD_WIDTH / 2f, GameConfig.HUD_HEIGHT / 2f)
+        floatingScore.score = score
+        floatingScores.add(floatingScore)
+    }
 }

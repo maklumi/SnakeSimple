@@ -1,7 +1,6 @@
 package com.jumper.common
 
 import com.badlogic.gdx.Gdx
-import com.snakesimple.common.GameManager
 
 
 object GameManager {
@@ -36,8 +35,8 @@ object GameManager {
     }
 
     fun reset() {
-        GameManager.score = 0
-        GameManager.displayScore = 0
+        score = 0
+        displayScore = 0
     }
 
 }

@@ -30,6 +30,9 @@ class LoadingScreen(private val game: GameBase) : ScreenAdapter() {
         assetManager.load(AssetDescriptors.FONT)
         assetManager.load(AssetDescriptors.GAME_PLAY)
         assetManager.load(AssetDescriptors.SKIN)
+        assetManager.load(AssetDescriptors.COIN)
+        assetManager.load(AssetDescriptors.JUMP)
+        assetManager.load(AssetDescriptors.LOSE)
     }
 
     override fun render(delta: Float) {

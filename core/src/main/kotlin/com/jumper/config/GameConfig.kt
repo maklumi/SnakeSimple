@@ -38,4 +38,5 @@ object GameConfig {
     const val START_WAIT_TIME = 3f
     const val MIN_ANG_DIST = 60f
 
+    const val FLOATING_DURATION = 0.75f
 }

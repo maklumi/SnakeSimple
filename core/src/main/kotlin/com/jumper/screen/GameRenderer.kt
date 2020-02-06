@@ -165,6 +165,19 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
                       (GameConfig.HUD_HEIGHT + glyphLayout.height) / 2f
             )
         }
+
+
+        val oldFontColor = Color(font.color)
+
+        controller.floatingScores.forEach { floatingScore ->
+            glyphLayout.setText(font, "${floatingScore.score}")
+            font.color = floatingScore.color
+            font.draw(batch, glyphLayout,
+                      floatingScore.x - glyphLayout.width / 2f,
+                      floatingScore.y - glyphLayout.height / 2f)
+        }
+
+        font.color = oldFontColor
     }
 
     private fun renderDebug() {
