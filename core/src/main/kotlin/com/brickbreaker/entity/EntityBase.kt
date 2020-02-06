@@ -1,5 +1,6 @@
 package com.brickbreaker.entity
 
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Vector2
 import com.brickbreaker.util.shape.ShapeUtils
@@ -29,6 +30,19 @@ abstract class EntityBase {
 
     fun setVelocityX(velocityX: Float) {
         velocity.x = velocityX
+    }
+
+    fun setVelocity(angleDeg: Float, value: Float) {
+        velocity.x = value * MathUtils.cosDeg(angleDeg)
+        velocity.y = value * MathUtils.sinDeg(angleDeg)
+    }
+
+    fun multiplyVelocityX(xAmount: Float) {
+        velocity.x *= xAmount
+    }
+
+    fun multiplyVelocityY(yAmount: Float) {
+        velocity.y *= yAmount
     }
 
     fun setPosition(x: Float, y: Float) {

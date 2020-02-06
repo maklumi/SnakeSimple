@@ -37,4 +37,15 @@ class EntityFactory {
         brick.setSize(GameConfig.BRICK_WIDTH, GameConfig.BRICK_HEIGHT)
         return brick
     }
+
+    fun createBall(): Ball {
+        val ball = Ball()
+        ball.setPosition(GameConfig.BALL_START_X, GameConfig.BALL_START_Y)
+        ball.setSize(GameConfig.BALL_SIZE)
+        ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
+        ball.bound.setRadius(GameConfig.BALL_HALF_SIZE)
+        ball.setVelocity(GameConfig.BALL_START_ANGLE, GameConfig.BALL_START_SPEED)
+        return ball
+    }
+
 }

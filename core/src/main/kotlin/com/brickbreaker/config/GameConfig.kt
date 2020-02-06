@@ -22,4 +22,12 @@ object GameConfig {
     const val COLUMN_COUNT = 12 // count
     const val ROW_SPACING = 0.5f // world units
     const val ROW_COUNT = 6 // count
+
+    const val BALL_SIZE = 0.8f // world units
+    const val BALL_HALF_SIZE = BALL_SIZE / 2f
+    const val BALL_START_X = PADDLE_START_X + (PADDLE_START_WIDTH - BALL_SIZE) / 2f
+    const val BALL_START_Y = PADDLE_START_Y + PADDLE_HEIGHT
+    const val BALL_START_SPEED = 16f
+    const val BALL_START_ANGLE = 60f // degrees
+
 }
