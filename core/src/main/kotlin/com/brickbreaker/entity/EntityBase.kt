@@ -19,6 +19,9 @@ abstract class EntityBase {
             return field
         }
 
+    val speed: Float
+        get() = velocity.len()
+
     private val velocity = Vector2()
 
     fun update(delta: Float) {
@@ -32,9 +35,9 @@ abstract class EntityBase {
         velocity.x = velocityX
     }
 
-    fun setVelocity(angleDeg: Float, value: Float) {
-        velocity.x = value * MathUtils.cosDeg(angleDeg)
-        velocity.y = value * MathUtils.sinDeg(angleDeg)
+    fun setVelocity(angleDeg: Float, speed: Float) {
+        velocity.x = speed * MathUtils.cosDeg(angleDeg)
+        velocity.y = speed * MathUtils.sinDeg(angleDeg)
     }
 
     fun multiplyVelocityX(xAmount: Float) {

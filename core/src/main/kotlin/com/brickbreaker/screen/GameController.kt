@@ -1,6 +1,6 @@
 package com.brickbreaker.screen
 
-import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Intersector
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.input.PaddleInputController
@@ -17,6 +17,7 @@ class GameController(factory: EntityFactory) {
         paddle.limitX()
         ball.update(delta)
         limitBallXY()
+        checkCollision()
     }
 
     private fun limitBallXY() {
@@ -37,5 +38,15 @@ class GameController(factory: EntityFactory) {
             ball.multiplyVelocityX(-1f)
         }
         ball.bound.setPosition(ball.x, ball.y)
+    }
+
+    private fun checkCollision() {
+        if (Intersector.overlapConvexPolygons(ball.bounds, paddle.bounds)) {
+            val ballCenterX = ball.x + ball.width / 2f
+            val percent = (ballCenterX - paddle.x) / paddle.width // 0f-1f
+            // interpolate angle between 150 and 30
+            val bounceAngle = 150 - percent * 120
+            ball.setVelocity(bounceAngle, ball.speed)
+        }
     }
 }
