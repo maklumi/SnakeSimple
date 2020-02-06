@@ -1,9 +1,11 @@
 package com.brickbreaker.screen
 
 import com.badlogic.gdx.math.Intersector
+import com.badlogic.gdx.math.Vector2
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.input.PaddleInputController
+import com.brickbreaker.util.shape.RectangleUtils
 
 class GameController(factory: EntityFactory) {
 
@@ -17,7 +19,8 @@ class GameController(factory: EntityFactory) {
         paddle.limitX()
         ball.update(delta)
         limitBallXY()
-        checkCollision()
+        checkPaddleCollision()
+        checkBrickCollision()
     }
 
     private fun limitBallXY() {
@@ -40,13 +43,59 @@ class GameController(factory: EntityFactory) {
         ball.bound.setPosition(ball.x, ball.y)
     }
 
-    private fun checkCollision() {
+    private fun checkPaddleCollision() {
         if (Intersector.overlapConvexPolygons(ball.bounds, paddle.bounds)) {
             val ballCenterX = ball.x + ball.width / 2f
             val percent = (ballCenterX - paddle.x) / paddle.width // 0f-1f
             // interpolate angle between 150 and 30
             val bounceAngle = 150 - percent * 120
             ball.setVelocity(bounceAngle, ball.speed)
+        }
+    }
+
+    private fun checkBrickCollision() {
+        val ballPolygon = ball.bounds
+        val ballRadius = ball.width / 2f
+        ball.bound.set(ball.x + ballRadius, ball.y + ballRadius, ballRadius)
+        val ballBounds = ball.bound
+
+        for (brick in bricks.asSequence()) {
+            val brickPolygon = brick.bounds
+            val brickBounds = brickPolygon.boundingRectangle
+
+            if (!Intersector.overlapConvexPolygons(ballPolygon, brickPolygon)) {
+                continue
+            }
+            bricks.removeValue(brick, false)
+
+            // check which side of brick is overlapping with ball
+            val bL = RectangleUtils.getBottomLeft((brickBounds))
+            val bR = RectangleUtils.getBottomRight(brickBounds)
+            val tL = RectangleUtils.getTopLeft(brickBounds)
+            val tR = RectangleUtils.getTopRight(brickBounds)
+
+            val center = Vector2(ballBounds.x, ballBounds.y)
+            val sqRadius = ballBounds.radius * ballBounds.radius
+
+            val bottomHit = Intersector.intersectSegmentCircle(bL, bR, center, sqRadius)
+            val topHit = Intersector.intersectSegmentCircle(tL, tR, center, sqRadius)
+            val leftHit = Intersector.intersectSegmentCircle(bL, tL, center, sqRadius)
+            val rightHit = Intersector.intersectSegmentCircle(bR, tR, center, sqRadius)
+
+            // left - right
+            if (ball.velocity.x > 0 && leftHit) {
+                ball.multiplyVelocityX(-1f)
+            } else if (ball.velocity.x < 0 && rightHit) {
+                ball.multiplyVelocityX(-1f)
+            }
+
+            // bottom - top
+            if (ball.velocity.y > 0 && bottomHit) {
+                ball.multiplyVelocityY(-1f)
+            } else if (ball.velocity.y < 0 && topHit) {
+                ball.multiplyVelocityY(-1f)
+            }
+
         }
     }
 }

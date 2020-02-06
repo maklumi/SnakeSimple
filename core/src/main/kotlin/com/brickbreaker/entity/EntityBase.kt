@@ -22,7 +22,7 @@ abstract class EntityBase {
     val speed: Float
         get() = velocity.len()
 
-    private val velocity = Vector2()
+    val velocity = Vector2()
 
     fun update(delta: Float) {
         val newX = x + velocity.x * delta
