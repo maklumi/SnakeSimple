@@ -3,12 +3,14 @@ package com.brickbreaker.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
+import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
-class GameController(private val factory: EntityFactory) {
+class GameController(private val factory: EntityFactory,
+                     private val scoreController: ScoreController) {
 
     val ball = factory.createBall()
     val bricks = factory.createBricks()
@@ -104,10 +106,16 @@ class GameController(private val factory: EntityFactory) {
                 ball.multiplyVelocityY(-1f)
             }
 
+
+            // add score
+            scoreController.score += GameConfig.BRICK_SCORE
+            scoreController.updateHighScore()
+            println("Score: ${scoreController.score} HighScore: ${scoreController.highScore}")
         }
     }
 
     private fun startLevel() {
+        scoreController.reset()
         restart()
         bricks.clear()
         bricks.addAll(factory.createBricks())

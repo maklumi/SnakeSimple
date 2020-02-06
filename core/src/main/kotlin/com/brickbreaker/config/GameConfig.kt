@@ -30,4 +30,6 @@ object GameConfig {
     const val BALL_START_SPEED = 16f
     const val BALL_START_ANGLE = 60f // degrees
 
+    const val BRICK_SCORE = 10 // score
+
 }
