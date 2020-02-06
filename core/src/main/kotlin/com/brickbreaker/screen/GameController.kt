@@ -5,6 +5,7 @@ import com.brickbreaker.input.PaddleInputController
 
 class GameController(factory: EntityFactory) {
 
+    val bricks = factory.createBricks()
     val paddle = factory.createPaddle()
     private val paddleInputController = PaddleInputController(paddle)
 

@@ -36,8 +36,11 @@ class GameRenderer(private val controller: GameController) {
     private fun drawDebug() {
         val oldColor = renderer.color.cpy()
         renderer.color = Color.GOLDENROD
+        // paddle
         val paddleBound = controller.paddle.bounds
         ShapeRendererUtils.polygon(renderer, paddleBound)
+        // bricks
+        controller.bricks.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
         renderer.color = oldColor
     }
 
