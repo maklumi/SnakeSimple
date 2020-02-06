@@ -37,7 +37,7 @@ class GameRenderer(private val controller: GameController) {
         val oldColor = renderer.color.cpy()
         renderer.color = Color.GOLDENROD
         val paddleBound = controller.paddle.bounds
-        ShapeRendererUtils.rect(renderer, paddleBound)
+        ShapeRendererUtils.polygon(renderer, paddleBound)
         renderer.color = oldColor
     }
 

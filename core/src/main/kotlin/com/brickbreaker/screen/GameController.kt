@@ -10,5 +10,6 @@ class GameController(factory: EntityFactory) {
 
     fun update(delta: Float) {
         paddleInputController.update(delta)
+        paddle.limitX()
     }
 }
