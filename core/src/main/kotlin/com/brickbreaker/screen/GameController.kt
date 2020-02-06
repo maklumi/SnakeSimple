@@ -1,5 +1,6 @@
 package com.brickbreaker.screen
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
 import com.brickbreaker.config.GameConfig
@@ -7,7 +8,7 @@ import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
-class GameController(factory: EntityFactory) {
+class GameController(private val factory: EntityFactory) {
 
     val ball = factory.createBall()
     val bricks = factory.createBricks()
@@ -15,12 +16,19 @@ class GameController(factory: EntityFactory) {
     private val paddleInputController = PaddleInputController(paddle)
 
     fun update(delta: Float) {
+        if (Gdx.input.justTouched() && ball.isNotActive) {
+            startLevel()
+            ball.setVelocityY(GameConfig.BALL_START_SPEED)
+        }
+
+        if (ball.isNotActive) return
         paddleInputController.update(delta)
         paddle.limitX()
         ball.update(delta)
         limitBallXY()
         checkPaddleCollision()
         checkBrickCollision()
+        if (bricks.isEmpty) startLevel()
     }
 
     private fun limitBallXY() {
@@ -66,7 +74,7 @@ class GameController(factory: EntityFactory) {
             if (!Intersector.overlapConvexPolygons(ballPolygon, brickPolygon)) {
                 continue
             }
-            bricks.removeValue(brick, false)
+            bricks.removeValue(brick, true)
 
             // check which side of brick is overlapping with ball
             val bL = RectangleUtils.getBottomLeft((brickBounds))
@@ -98,4 +106,18 @@ class GameController(factory: EntityFactory) {
 
         }
     }
+
+    private fun startLevel() {
+        restart()
+        bricks.clear()
+        bricks.addAll(factory.createBricks())
+    }
+
+    private fun restart() {
+        paddle.setPosition(GameConfig.PADDLE_START_X, GameConfig.PADDLE_START_Y)
+        ball.setPosition(GameConfig.BALL_START_X, GameConfig.BALL_START_Y)
+        ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
+        ball.stop()
+    }
+
 }

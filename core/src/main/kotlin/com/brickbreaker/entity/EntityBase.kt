@@ -24,6 +24,9 @@ abstract class EntityBase {
 
     val velocity = Vector2()
 
+    val isNotActive: Boolean
+        get() = velocity.isZero
+
     fun update(delta: Float) {
         val newX = x + velocity.x * delta
         val newY = y + velocity.y * delta
@@ -33,6 +36,10 @@ abstract class EntityBase {
 
     fun setVelocityX(velocityX: Float) {
         velocity.x = velocityX
+    }
+
+    fun setVelocityY(velocityY: Float) {
+        velocity.y = velocityY
     }
 
     fun setVelocity(angleDeg: Float, speed: Float) {
@@ -59,4 +66,7 @@ abstract class EntityBase {
         bounds.vertices = ShapeUtils.createRectangle(width, height)
     }
 
+    fun stop() {
+        velocity.setZero()
+    }
 }
