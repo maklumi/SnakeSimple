@@ -2,6 +2,7 @@ package com.brickbreaker.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
+import com.badlogic.gdx.math.Circle
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
@@ -63,7 +64,7 @@ class GameController(private val factory: EntityFactory,
             ball.x = GameConfig.WORLD_WIDTH - GameConfig.BALL_SIZE
             ball.multiplyVelocityX(-1f)
         }
-        ball.bound.setPosition(ball.x, ball.y)
+        ball.bounds.setPosition(ball.x, ball.y)
     }
 
     private fun checkPaddleCollision() {
@@ -79,8 +80,7 @@ class GameController(private val factory: EntityFactory,
     private fun checkBrickCollision() {
         val ballPolygon = ball.bounds
         val ballRadius = ball.width / 2f
-        ball.bound.set(ball.x + ballRadius, ball.y + ballRadius, ballRadius)
-        val ballBounds = ball.bound
+        val ballBounds = Circle(ball.x + ballRadius, ball.y + ballRadius, ballRadius)
 
         for (brick in bricks.asSequence()) {
             val brickPolygon = brick.bounds
@@ -195,7 +195,7 @@ class GameController(private val factory: EntityFactory,
         paddle.setPosition(GameConfig.PADDLE_START_X, GameConfig.PADDLE_START_Y)
         paddle.setSize(GameConfig.PADDLE_START_WIDTH, GameConfig.PADDLE_HEIGHT)
         ball.setPosition(GameConfig.BALL_START_X, GameConfig.BALL_START_Y)
-        ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
+        ball.bounds.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
         ball.stop()
         for (i in 0 until effects.size) {
             val effect = effects.get(i)

@@ -109,7 +109,7 @@ class GameRenderer(private val controller: GameController,
         // bricks
         controller.bricks.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
         // ball
-        ShapeRendererUtils.circle(renderer, controller.ball.bound)
+        ShapeRendererUtils.polygon(renderer, controller.ball.bounds)
         renderer.color = oldColor
         // pickups
         controller.pickups.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }

@@ -15,7 +15,7 @@ abstract class EntityBase {
     var width = 1f
         set(value) {
             field = value
-            bounds.vertices = ShapeUtils.createRectangle(field, height)
+            bounds.vertices = createVertices()
         }
 
     var height = 1f
@@ -52,6 +52,10 @@ abstract class EntityBase {
         scriptController?.update(delta)
     }
 
+    open fun createVertices(): FloatArray {
+        return ShapeUtils.createRectangle(width, height)
+    }
+
     fun setVelocityX(velocityX: Float) {
         velocity.x = velocityX
     }
@@ -81,7 +85,7 @@ abstract class EntityBase {
     fun setSize(width: Float, height: Float = width) {
         this.width = width
         this.height = height
-        bounds.vertices = ShapeUtils.createRectangle(width, height)
+        bounds.vertices = createVertices()
     }
 
     fun stop() {
