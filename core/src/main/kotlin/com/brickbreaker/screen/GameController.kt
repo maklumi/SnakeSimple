@@ -35,6 +35,7 @@ class GameController(private val factory: EntityFactory,
         limitBallXY()
         checkPaddleCollision()
         checkBrickCollision()
+        checkPaddleWithPickupCollision()
         if (bricks.isEmpty) startLevel()
         updateEffects(delta)
         updatePickups(delta)
@@ -127,6 +128,18 @@ class GameController(private val factory: EntityFactory,
             // add score
             scoreController.score += GameConfig.BRICK_SCORE
             scoreController.updateHighScore()
+        }
+    }
+
+    private fun checkPaddleWithPickupCollision() {
+        val iterator = Array.ArrayIterator(pickups)
+        while (iterator.hasNext()) {
+            val pickup = iterator.next()
+
+            if (Intersector.overlapConvexPolygons(paddle.bounds, pickup.bounds)) {
+                iterator.remove()
+                factory.freePickup(pickup)
+            }
         }
     }
 
