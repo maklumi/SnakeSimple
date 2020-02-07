@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array
 
 object AssetDescriptors {
 
-    private val FONT = AssetDescriptor(AssetPaths.SCORE_FONT, BitmapFont::class.java)
+    val FONT = AssetDescriptor(AssetPaths.SCORE_FONT, BitmapFont::class.java)
 
     val ALL = Array<AssetDescriptor<*>>().also {
         it.addAll(

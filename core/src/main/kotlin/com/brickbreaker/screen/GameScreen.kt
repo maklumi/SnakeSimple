@@ -12,7 +12,7 @@ class GameScreen(game: GameBase) : ScreenAdapter() {
     private val scoreController = ScoreController()
     private val factory = EntityFactory()
     private val controller = GameController(factory, scoreController)
-    private val renderer = GameRenderer(controller)
+    private val renderer = GameRenderer(controller, game.batch, game.assetManager)
 
     override fun show() {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)

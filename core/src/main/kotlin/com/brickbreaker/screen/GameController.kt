@@ -10,7 +10,7 @@ import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
 class GameController(private val factory: EntityFactory,
-                     private val scoreController: ScoreController) {
+                     val scoreController: ScoreController) {
 
     val ball = factory.createBall()
     val bricks = factory.createBricks()
@@ -110,7 +110,6 @@ class GameController(private val factory: EntityFactory,
             // add score
             scoreController.score += GameConfig.BRICK_SCORE
             scoreController.updateHighScore()
-            println("Score: ${scoreController.score} HighScore: ${scoreController.highScore}")
         }
     }
 
