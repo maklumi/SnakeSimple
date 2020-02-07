@@ -2,6 +2,7 @@ apply plugin: 'application'
 
 sourceSets.main.resources.srcDirs += [rootProject.file('assets').path,
                                       rootProject.file('assets-jumper').path,
+                                      rootProject.file('assets-platformer').path,
                                       rootProject.file('assets-brickbreaker').path]
 mainClassName = 'com.snakesimple.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
