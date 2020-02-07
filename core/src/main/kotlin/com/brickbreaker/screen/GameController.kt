@@ -9,7 +9,11 @@ import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.entity.Pickup
+import com.brickbreaker.entity.PickupType
+import com.brickbreaker.entity.script.BallSlowDownScript
+import com.brickbreaker.entity.script.BallSpeedUpScript
 import com.brickbreaker.entity.script.PaddleExpandScript
+import com.brickbreaker.entity.script.PaddleShrinkScript
 import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
@@ -140,8 +144,17 @@ class GameController(private val factory: EntityFactory,
             if (Intersector.overlapConvexPolygons(paddle.bounds, pickup.bounds)) {
                 iterator.remove()
                 factory.freePickup(pickup)
-                paddle.scriptController.addScript(PaddleExpandScript())
+                addScript(pickup)
             }
+        }
+    }
+
+    private fun addScript(pickup: Pickup) {
+        when (pickup.type) {
+            PickupType.EXPAND -> paddle.addScript(PaddleExpandScript())
+            PickupType.SHRINK -> paddle.addScript(PaddleShrinkScript())
+            PickupType.SLOW_DOWN -> ball.addScript(BallSlowDownScript())
+            PickupType.SPEED_UP -> ball.addScript(BallSpeedUpScript())
         }
     }
 

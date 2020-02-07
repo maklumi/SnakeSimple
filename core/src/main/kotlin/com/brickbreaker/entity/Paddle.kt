@@ -6,12 +6,7 @@ import com.brickbreaker.entity.script.ScriptController
 
 class Paddle : EntityBase() {
 
-    val scriptController = ScriptController(this)
-
-    override fun update(delta: Float) {
-        super.update(delta)
-        scriptController.update(delta)
-    }
+    override val scriptController = ScriptController(this)
 
     fun limitX() {
         x = MathUtils.clamp(x, 0f, GameConfig.WORLD_WIDTH - width)

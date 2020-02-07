@@ -18,6 +18,7 @@ object GameConfig {
     const val PADDLE_RESIZE_FACTOR = 0.15f // percentage
     const val PADDLE_MAX_WIDTH = 16f
     const val PADDLE_EXPAND_SHRINK_SPEED = 6f
+    const val PADDLE_MIN_WIDTH = 1.2f
 
     const val BRICK_WIDTH = 2.125f // world units
     const val BRICK_HEIGHT = 1f // world units
@@ -34,6 +35,9 @@ object GameConfig {
     const val BALL_START_Y = PADDLE_START_Y + PADDLE_HEIGHT
     const val BALL_START_SPEED = 16f
     const val BALL_START_ANGLE = 60f // degrees
+    const val BALL_SPEED_FACTOR = 0.15f // 15%
+    const val BALL_MIN_SPEED = 10f
+    const val BALL_MAX_SPEED = 22f
 
     const val BRICK_SCORE = 10 // score
 

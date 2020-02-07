@@ -3,6 +3,8 @@ package com.brickbreaker.entity
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Vector2
+import com.brickbreaker.entity.script.EntityScript
+import com.brickbreaker.entity.script.ScriptController
 import com.brickbreaker.util.shape.ShapeUtils
 
 abstract class EntityBase {
@@ -32,11 +34,22 @@ abstract class EntityBase {
     val isNotActive: Boolean
         get() = velocity.isZero
 
+    val angleDeg: Float
+        get() = MathUtils.atan2(velocity.y, velocity.x) * MathUtils.radiansToDegrees
+
+    open val scriptController: ScriptController? = null
+
+    fun addScript(entityScript: EntityScript<out EntityBase>) {
+        if (scriptController == null) println("EntityBase: scriptController is null")
+        scriptController?.addScript(entityScript)
+    }
+
     open fun update(delta: Float) {
         val newX = x + velocity.x * delta
         val newY = y + velocity.y * delta
 
         setPosition(newX, newY)
+        scriptController?.update(delta)
     }
 
     fun setVelocityX(velocityX: Float) {
