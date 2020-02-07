@@ -6,24 +6,28 @@ import com.util.entity.EntityBase
 
 class Monster : EntityBase() {
 
-    var angleDeg = GameConfig.START_ANGLE
+    override var angleDeg = GameConfig.START_ANGLE
     private val angleDegSpeed = GameConfig.MONSTER_START_ANG_SPEED
     private val originX = GameConfig.WORLD_CENTER_X
     private val originY = GameConfig.WORLD_CENTER_Y
 
-    private var speed = 0f
+    override var speed = 0f
     private var acceleration = GameConfig.MONSTER_START_ACC
     private var state = MonsterState.WALKING
     val isWalking: Boolean
         get() = state.isWalking()
 
-    override fun initSize() {
+    init {
+        initSize()
+    }
+
+    private fun initSize() {
         setSize(GameConfig.MONSTER_SIZE, GameConfig.MONSTER_SIZE)
         setPosition(GameConfig.WORLD_CENTER_X - GameConfig.MONSTER_HALF_SIZE,
                     GameConfig.WORLD_CENTER_Y + GameConfig.PLANET_HALF_SIZE)
     }
 
-    fun update(delta: Float) {
+    override fun update(delta: Float) {
         if (state.isJumping()) {
             speed += acceleration * delta
 

@@ -203,14 +203,14 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
         // monster
         renderer.color = Color.CORAL
         val mb = monster.bounds
-        renderer.rect(mb.x, mb.y, 0f, 0f, mb.width, mb.height, 1f, 1f, GameConfig.MONSTER_START_ANG_SPEED - monster.angleDeg)
+        renderer.rect(mb.x, mb.y, 0f, 0f, monster.width, monster.height, 1f, 1f, GameConfig.MONSTER_START_ANG_SPEED - monster.angleDeg)
 
         // coins
         val coins = controller.coins
         coins.forEach { c ->
             renderer.color = Color.YELLOW
             renderer.rect(c.bounds.x, c.bounds.y, 0f, 0f,
-                          c.bounds.width, c.bounds.height, c.scale, c.scale,
+                          c.width, c.height, c.scale, c.scale,
                           GameConfig.START_ANGLE - c.angleDeg)
         }
 
@@ -219,13 +219,13 @@ class GameRenderer(private val controller: GameController, game: GameBase) {
             renderer.color = Color.GREEN
             // obstacle
             val ob = obstacle.bounds
-            renderer.rect(ob.x, ob.y, 0f, 0f, ob.width, ob.height, 1f, 1f,
+            renderer.rect(ob.x, ob.y, 0f, 0f, obstacle.width, obstacle.height, 1f, 1f,
                           GameConfig.START_ANGLE - obstacle.angleDeg)
 
             // sensor
             renderer.color = Color.RED
             val sb = obstacle.sensor
-            renderer.rect(sb.x, sb.y, 0f, 0f, sb.width, sb.height, 1f, 1f,
+            renderer.rect(sb.x, sb.y, 0f, 0f, obstacle.width, obstacle.height, 1f, 1f,
                           GameConfig.START_ANGLE - obstacle.angleDeg)
         }
     }

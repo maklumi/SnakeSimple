@@ -108,11 +108,11 @@ class GameRenderer(private val batch: SpriteBatch, private val controller: GameC
 
         val head = controller.snake.head
         val hb = head.bounds
-        renderer.rect(hb.x, hb.y, hb.width, hb.height)
+        renderer.rect(hb.x, hb.y, head.width, head.height)
 
         renderer.color = Color.FIREBRICK
         val cb = controller.coin.bounds
-        renderer.rect(cb.x, cb.y, cb.width, cb.height)
+        renderer.rect(cb.x, cb.y, controller.coin.width, controller.coin.height)
 
         renderer.color = Color.GOLDENROD
         val bodyParts = controller.snake.bodyParts

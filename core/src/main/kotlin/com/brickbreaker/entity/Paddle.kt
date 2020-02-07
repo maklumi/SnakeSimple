@@ -2,7 +2,8 @@ package com.brickbreaker.entity
 
 import com.badlogic.gdx.math.MathUtils
 import com.brickbreaker.config.GameConfig
-import com.brickbreaker.entity.script.ScriptController
+import com.util.entity.script.ScriptController
+import com.util.entity.EntityBase
 
 class Paddle : EntityBase() {
 

@@ -1,7 +1,8 @@
 package com.brickbreaker.entity
 
-import com.brickbreaker.entity.script.ScriptController
-import com.brickbreaker.util.shape.ShapeUtils
+import com.util.entity.script.ScriptController
+import com.util.entity.EntityBase
+import com.util.shape.ShapeUtils
 
 class Ball : EntityBase() {
 

@@ -138,7 +138,7 @@ class GameController(private val soundManager: SoundManager) {
         // player <-> coins
         val coins = Array.ArrayIterable<Coin>(coins)
         for (coin in coins) {
-            if (Intersector.overlaps(monster.bounds, coin.bounds)) {
+            if (Intersector.overlapConvexPolygons(monster.bounds, coin.bounds)) {
                 GameManager.score += GameConfig.COIN_SCORE
                 coinPool.free(coin)
                 this.coins.removeValue(coin, true)
@@ -150,12 +150,12 @@ class GameController(private val soundManager: SoundManager) {
         // player <-> obstacle
         val obstacles = Array.ArrayIterable<Obstacle>(this.obstacles)
         for (obstacle in obstacles) {
-            if (Intersector.overlaps(monster.bounds, obstacle.sensor)) {
+            if (Intersector.overlapConvexPolygons(monster.bounds, obstacle.sensor)) {
                 GameManager.score += GameConfig.OBSTACLE_SCORE
                 addFloatingScore(GameConfig.OBSTACLE_SCORE)
                 obstaclePool.free(obstacle)
                 this.obstacles.removeValue(obstacle, true)
-            } else if (Intersector.overlaps(monster.bounds, obstacle.bounds)) {
+            } else if (Intersector.overlapConvexPolygons(monster.bounds, obstacle.bounds)) {
                 gameState = GameState.GAME_OVER
                 soundManager.playSound(SoundManager.SoundType.LOSE)
             }

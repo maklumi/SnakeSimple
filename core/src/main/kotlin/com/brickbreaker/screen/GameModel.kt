@@ -15,7 +15,7 @@ import com.brickbreaker.entity.script.BallSlowDownScript
 import com.brickbreaker.entity.script.BallSpeedUpScript
 import com.brickbreaker.entity.script.PaddleExpandScript
 import com.brickbreaker.entity.script.PaddleShrinkScript
-import com.brickbreaker.util.shape.RectangleUtils
+import com.util.shape.RectangleUtils
 
 class GameModel(
         private val factory: EntityFactory,

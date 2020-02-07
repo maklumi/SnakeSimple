@@ -1,4 +1,4 @@
-package com.brickbreaker.util.shape
+package com.util.shape
 
 import com.badlogic.gdx.math.MathUtils
 

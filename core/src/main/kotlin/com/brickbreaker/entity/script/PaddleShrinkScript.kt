@@ -2,6 +2,7 @@ package com.brickbreaker.entity.script
 
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.Paddle
+import com.util.entity.script.EntityScriptBase
 
 class PaddleShrinkScript : EntityScriptBase<Paddle>() {
 

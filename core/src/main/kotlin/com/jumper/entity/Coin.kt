@@ -8,7 +8,7 @@ import com.util.entity.EntityBase
 
 class Coin : EntityBase(), Poolable {
 
-    var angleDeg = 0f
+    override var angleDeg = 0f
         set(value) {
             field = value % 360
             var radius: Float = GameConfig.PLANET_HALF_SIZE
@@ -27,7 +27,11 @@ class Coin : EntityBase(), Poolable {
 
     private val scaleMax = 1.0f
 
-    fun update(delta: Float) {
+    init {
+        initSize()
+    }
+
+    override fun update(delta: Float) {
         if (scale < scaleMax) {
             scale += delta
         }
@@ -39,7 +43,7 @@ class Coin : EntityBase(), Poolable {
         angleDeg = MathUtils.random(360f)
     }
 
-    override fun initSize() {
+    fun initSize() {
         setSize(GameConfig.COIN_SIZE, GameConfig.COIN_SIZE)
     }
 

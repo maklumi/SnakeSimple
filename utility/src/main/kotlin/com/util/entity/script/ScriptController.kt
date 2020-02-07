@@ -1,7 +1,8 @@
-package com.brickbreaker.entity.script
+package com.util.entity.script
 
 import com.badlogic.gdx.utils.Array
-import com.brickbreaker.entity.EntityBase
+import com.util.entity.EntityBase
+import com.util.entity.script.EntityScript
 
 
 class ScriptController(private val entity: EntityBase) {

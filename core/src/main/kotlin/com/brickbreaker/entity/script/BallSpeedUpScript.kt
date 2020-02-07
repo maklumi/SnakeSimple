@@ -2,6 +2,7 @@ package com.brickbreaker.entity.script
 
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.Ball
+import com.util.entity.script.EntityScriptBase
 
 class BallSpeedUpScript : EntityScriptBase<Ball>() {
 

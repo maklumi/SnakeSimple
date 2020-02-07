@@ -1,7 +1,7 @@
-package com.brickbreaker.entity.script
+package com.util.entity.script
 
 import com.util.entity.EntityBase
-import com.util.entity.script.EntityScript
+
 
 abstract class EntityScriptBase<T : EntityBase> : EntityScript<T> {
 

@@ -65,7 +65,7 @@ class GameController(private val listener: CollisionListener) {
 
     private fun checkCollision() {
         // check head <-> coin collision and add lengthen body part
-        val headCoinCollision = Intersector.overlaps(snake.head.bounds, coin.bounds)
+        val headCoinCollision = Intersector.overlapConvexPolygons(snake.head.bounds, coin.bounds)
         if (headCoinCollision && coin.available) {
             snake.insertBodyPart()
             coin.available = false // reset so can be spawned again
@@ -80,7 +80,7 @@ class GameController(private val listener: CollisionListener) {
                 part.justAdded = false
                 continue // with other part
             }
-            if (Intersector.overlaps(snake.head.bounds, part.bounds)) {
+            if (Intersector.overlapConvexPolygons(snake.head.bounds, part.bounds)) {
                 GameManager.saveHighScore()
                 GameManager.state = GameState.GAME_OVER
                 coin.setPosition(-2f, 2f) // put it off screen

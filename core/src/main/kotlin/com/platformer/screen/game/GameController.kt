@@ -17,6 +17,7 @@ class GameController(val game: GameWorld, val renderer: GameRenderer) {
     private fun handleDebugInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) game.toggleDrawGrid()
         if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) game.toggleDrawDebug()
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) Gdx.app.exit()
     }
 
 }

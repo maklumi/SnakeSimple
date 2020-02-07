@@ -1,6 +1,7 @@
 package com.brickbreaker.entity
 
 import com.badlogic.gdx.utils.Pool
+import com.util.entity.EntityBase
 
 class Pickup : EntityBase(), Pool.Poolable {
 

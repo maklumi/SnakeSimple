@@ -1,6 +1,7 @@
-package com.brickbreaker.entity.script
+package com.util.entity.script
 
 import com.util.entity.EntityBase
+
 
 interface EntityScript<T : EntityBase> {
 

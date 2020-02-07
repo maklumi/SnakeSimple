@@ -7,7 +7,7 @@ class Coin : EntityBase() {
 
     var available = false
 
-    override fun initSize() {
+    fun initSize() {
         setSize(GameConfig.COIN_SIZE, GameConfig.COIN_SIZE)
     }
 

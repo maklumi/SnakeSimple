@@ -1,4 +1,4 @@
-package com.brickbreaker.util.parallax
+package com.util.parallax
 
 import com.badlogic.gdx.math.Rectangle
 import com.util.Direction

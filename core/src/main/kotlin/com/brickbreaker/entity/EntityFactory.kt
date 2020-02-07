@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Pools
 import com.brickbreaker.assets.AssetDescriptors
 import com.brickbreaker.config.GameConfig
 import com.util.Direction
-import com.brickbreaker.util.parallax.ParallaxLayer
+import com.util.parallax.ParallaxLayer
 
 class EntityFactory(assetManager: AssetManager) {
 

@@ -14,6 +14,7 @@ import com.platformer.config.GameConfig.UNIT_SCALE
 import com.util.GdxUtils
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
+import com.util.debug.ShapeRendererUtils
 
 
 class GameRenderer(val game: GameWorld, val batch: SpriteBatch, assetManager: AssetManager) {
@@ -74,8 +75,8 @@ class GameRenderer(val game: GameWorld, val batch: SpriteBatch, assetManager: As
     }
 
     private fun drawDebug() {
-        renderer.apply {
-            color = Color.GOLD
-        }
+        renderer.color = Color.GOLD
+
+        ShapeRendererUtils.entities(renderer, game.waterHazards)
     }
 }

@@ -3,6 +3,7 @@ package com.brickbreaker.entity.script
 import com.badlogic.gdx.utils.Logger
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.Ball
+import com.util.entity.script.EntityScriptBase
 
 class BallSlowDownScript : EntityScriptBase<Ball>() {
 

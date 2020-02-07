@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Circle
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.utils.Array
+import com.util.entity.EntityBase
+
 
 object ShapeRendererUtils {
 
@@ -19,4 +22,11 @@ object ShapeRendererUtils {
         renderer.polygon(polygon.transformedVertices)
     }
 
+    fun <T : EntityBase> entities(renderer: ShapeRenderer, entities: Array<T>) {
+        val iterator = Array.ArrayIterator<T>(entities)
+        while (iterator.hasNext()) {
+            val entityBase = iterator.next()
+            polygon(renderer, entityBase.bounds)
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.util.entity.EntityBase
 
 class SnakeHead : EntityBase() {
 
-    override fun initSize() {
+    fun initSize() {
         setSize(GameConfig.SNAKE_SIZE, GameConfig.SNAKE_SIZE)
     }
 }
