@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.util.assets.BasicAssetErrorListener
 import com.util.screen.transition.ScreenTransition
 
 abstract class GameBase : Game() {
@@ -41,6 +42,7 @@ abstract class GameBase : Game() {
     override fun create() {
         Gdx.app.logLevel = Application.LOG_DEBUG
         assetManager.logger.level = Logger.DEBUG
+        assetManager.setErrorListener(BasicAssetErrorListener)
         batch = SpriteBatch()
         viewport = FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
 

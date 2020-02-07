@@ -1,11 +1,11 @@
 package com.platformer
 
-import com.platformer.screen.GameScreen
+import com.platformer.screen.LoadingScreen
 import com.util.game.GameBase
 
 class SimplePlatformerGame : GameBase() {
 
     override fun postCreate() {
-        setScreen(GameScreen(this))
+        setScreen(LoadingScreen(this))
     }
 }

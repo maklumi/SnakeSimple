@@ -1,22 +1,29 @@
 package com.platformer.screen.game
 
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.platformer.assets.AssetDescriptors
 import com.platformer.config.GameConfig
+import com.platformer.config.GameConfig.UNIT_SCALE
 import com.util.GdxUtils
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
 
 
-class GameRenderer(val game: GameWorld, val batch: SpriteBatch) {
+class GameRenderer(val game: GameWorld, val batch: SpriteBatch, assetManager: AssetManager) {
 
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private val renderer = ShapeRenderer()
+
+    private val map = assetManager[AssetDescriptors.LEVEL_01]
+    private val mapRenderer = OrthogonalTiledMapRenderer(map, UNIT_SCALE, batch)
 
     fun update(delta: Float) {
         DebugCameraController.apply {
@@ -25,6 +32,11 @@ class GameRenderer(val game: GameWorld, val batch: SpriteBatch) {
         }
 
         GdxUtils.clearScreen()
+
+        mapRenderer.apply {
+            setView(camera) // internally sets project matrix, important to call
+            render() // internally calls begin()/end() from SpriteBatch
+        }
 
         renderDebug()
     }
@@ -38,6 +50,7 @@ class GameRenderer(val game: GameWorld, val batch: SpriteBatch) {
 
     fun dispose() {
         renderer.dispose()
+        mapRenderer.dispose()
     }
 
     private fun renderDebug() {
@@ -63,7 +76,6 @@ class GameRenderer(val game: GameWorld, val batch: SpriteBatch) {
     private fun drawDebug() {
         renderer.apply {
             color = Color.GOLD
-            circle(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y, 2.0f, 16)
         }
     }
 }

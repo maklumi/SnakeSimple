@@ -12,5 +12,11 @@ object GameConfig {
     const val WORLD_CENTER_X = WORLD_WIDTH / 2f
     const val WORLD_CENTER_Y = WORLD_HEIGHT / 2f
 
+    const val HUD_WIDTH = 1280f // world unit, 1:1 pixel per unit
+    const val HUD_HEIGHT = 780f
+
+    const val UNIT_SCALE = 1f / 64f // 64 pixels tile width in tmx map is 1 world unit
+
+
 }
 
