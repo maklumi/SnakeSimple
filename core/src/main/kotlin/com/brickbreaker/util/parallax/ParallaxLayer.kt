@@ -1,7 +1,7 @@
 package com.brickbreaker.util.parallax
 
 import com.badlogic.gdx.math.Rectangle
-import com.brickbreaker.util.Direction
+import com.util.Direction
 
 class ParallaxLayer {
 

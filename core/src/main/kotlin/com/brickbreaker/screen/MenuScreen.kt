@@ -2,6 +2,7 @@ package com.brickbreaker.screen
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -15,6 +16,9 @@ import com.brickbreaker.assets.RegionNames
 import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.util.game.GameBase
+import com.util.screen.transition.impl.FadeScreenTransition
+import com.util.screen.transition.impl.ScaleScreenTransition
+import com.util.screen.transition.impl.SlideScreenTransition
 import ktx.app.clearScreen
 
 
@@ -83,7 +87,11 @@ class MenuScreen(private val game: GameBase) : ScreenAdapter() {
     }
 
     private fun play() {
-        game.screen = GameScreen(game, scoreController)
+        when (MathUtils.random(1, 3)) {
+            1 -> game.setScreen(GameScreen(game, scoreController), ScaleScreenTransition(2f))
+            2 -> game.setScreen(GameScreen(game, scoreController), SlideScreenTransition(2f))
+            3 -> game.setScreen(GameScreen(game, scoreController), FadeScreenTransition(2f))
+        }
     }
 
     private fun quit() {

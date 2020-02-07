@@ -1,4 +1,4 @@
-package com.brickbreaker.util
+package com.util
 
 enum class Direction {
     UP, DOWN, LEFT, RIGHT;
