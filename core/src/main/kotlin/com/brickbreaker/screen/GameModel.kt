@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.brickbreaker.common.ScoreController
+import com.brickbreaker.common.SoundController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.entity.Pickup
@@ -18,7 +19,8 @@ import com.brickbreaker.util.shape.RectangleUtils
 
 class GameModel(
         private val factory: EntityFactory,
-        val scoreController: ScoreController
+        val scoreController: ScoreController,
+        private val soundController: SoundController
 ) {
 
     val pickups = Array<Pickup>()
@@ -70,6 +72,7 @@ class GameModel(
             // interpolate angle between 150 and 30
             val bounceAngle = 150 - percent * 120
             ball.setVelocity(bounceAngle, ball.speed)
+            soundController.hit()
         }
     }
 
@@ -86,6 +89,7 @@ class GameModel(
                 continue
             }
             bricks.removeValue(brick, true)
+            soundController.hit()
 
             // check which side of brick is overlapping with ball
             val bL = RectangleUtils.getBottomLeft((brickBounds))
@@ -141,6 +145,7 @@ class GameModel(
                 iterator.remove()
                 factory.freePickup(pickup)
                 addScript(pickup)
+                soundController.pickup()
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.brickbreaker.assets
 
 import com.badlogic.gdx.assets.AssetDescriptor
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -13,8 +14,13 @@ object AssetDescriptors {
     val GAME_PLAY = AssetDescriptor(AssetPaths.GAME_PLAY, TextureAtlas::class.java)
     val FIRE = AssetDescriptor(AssetPaths.FIRE, ParticleEffect::class.java)
 
+    val HIT = AssetDescriptor(AssetPaths.HIT, Sound::class.java)
+    val LOST = AssetDescriptor(AssetPaths.LOST, Sound::class.java)
+    val PICKUP = AssetDescriptor(AssetPaths.PICKUP, Sound::class.java)
+
     val ALL = Array<AssetDescriptor<*>>().also {
         it.addAll(
+                HIT, LOST, PICKUP,
                 FIRE,
                 GAME_PLAY,
                 FONT
