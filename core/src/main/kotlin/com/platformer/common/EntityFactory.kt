@@ -3,12 +3,15 @@ package com.platformer.common
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.objects.RectangleMapObject
+import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.utils.Logger
 import com.platformer.assets.AssetDescriptors
-import com.platformer.assets.LayerNames.HAZARDS
+import com.platformer.assets.LayerNames
 import com.platformer.assets.MapObjectNames
+import com.platformer.entity.Platform
 import com.platformer.entity.WaterHazard
 import com.platformer.screen.game.GameWorld
+import com.util.entity.EntityBase
 import com.util.map.MapUtils
 import com.util.map.Validate
 
@@ -16,31 +19,28 @@ import com.util.map.Validate
 object EntityFactory {
 
     private val log = Logger(EntityFactory::class.java.simpleName, Logger.DEBUG)
-    
+
     fun createGameWorld(assetManager: AssetManager): GameWorld {
         val world = GameWorld()
 
         val map = assetManager[AssetDescriptors.LEVEL_01]
-        MapUtils.debugMapProperties(map.properties)
 
-        val hazardsLayer = map.layers[HAZARDS]
-        Validate.notNull(hazardsLayer, "Layer with name $HAZARDS not found")
-        MapUtils.debugMapProperties(hazardsLayer.properties)
-
-        val mapObjects = hazardsLayer.objects
-        val iterator = mapObjects.iterator()
-        while (iterator.hasNext()) {
-            val mapObject = iterator.next()
-            processMapObject(mapObject, world)
-            log.debug("mapObject= $mapObject")
-            MapUtils.debugMapProperties(mapObject.properties)
-
-            if (mapObject is RectangleMapObject) {
-                log.debug("rectangle= ${mapObject.rectangle}")
-            }
-        }
+        processLayer(map, LayerNames.HAZARDS, world)
+        processLayer(map, LayerNames.PLATFORMS, world)
 
         return world
+    }
+
+    private fun processLayer(map: TiledMap, layerName: String, gameWorld: GameWorld) {
+        val layers = map.layers
+        val layer = layers[layerName]
+        Validate.notNull(layer, "Layer with name $layerName not found")
+        MapUtils.debugMapProperties(layer.properties)
+        val mapObjects = layer.objects
+        mapObjects.forEach {
+            processMapObject(it, gameWorld)
+            log.debug("mapObject=$it")
+        }
     }
 
     private fun processMapObject(mapObject: MapObject, world: GameWorld) {
@@ -48,6 +48,11 @@ object EntityFactory {
             MapObjectNames.HAZARD -> {
                 val waterHazard = createWaterHazard(mapObject)
                 world.waterHazards.add(waterHazard)
+            }
+
+            MapObjectNames.PLATFORMS -> {
+                val platform = createPlatform(mapObject)
+                world.platforms.add(platform)
             }
 
         }
@@ -65,4 +70,17 @@ object EntityFactory {
         }
     }
 
+    private fun createPlatform(mapObject: MapObject): Platform {
+        val platform = Platform()
+        initializeEntityObject(platform, mapObject)
+        return platform
+    }
+
+    private fun <T : EntityBase> initializeEntityObject(entity: T, mapObject: MapObject) {
+        val rectangle = (mapObject as RectangleMapObject).rectangle
+        entity.apply {
+            setPosition(rectangle.x, rectangle.y)
+            setSize(rectangle.width, rectangle.height)
+        }
+    }
 }

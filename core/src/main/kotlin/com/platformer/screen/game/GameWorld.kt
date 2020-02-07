@@ -1,6 +1,7 @@
 package com.platformer.screen.game
 
 import com.badlogic.gdx.utils.Array
+import com.platformer.entity.Platform
 import com.platformer.entity.WaterHazard
 
 
@@ -10,6 +11,7 @@ class GameWorld {
     var isDrawDebug = true
 
     val waterHazards = Array<WaterHazard>()
+    val platforms = Array<Platform>()
 
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid

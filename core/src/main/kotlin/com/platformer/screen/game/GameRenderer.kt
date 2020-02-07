@@ -17,11 +17,11 @@ import com.util.debug.DebugCameraController
 import com.util.debug.ShapeRendererUtils
 
 
-class GameRenderer(val game: GameWorld, val batch: SpriteBatch, assetManager: AssetManager) {
+class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, assetManager: AssetManager) {
 
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
-    private val renderer = ShapeRenderer()
+    private val shapeRenderer = ShapeRenderer()
 
     private val map = assetManager[AssetDescriptors.LEVEL_01]
     private val mapRenderer = OrthogonalTiledMapRenderer(map, UNIT_SCALE, batch)
@@ -50,33 +50,34 @@ class GameRenderer(val game: GameWorld, val batch: SpriteBatch, assetManager: As
     fun screenToWorld(screenCoordinates: Vector2): Vector2 = viewport.unproject(screenCoordinates)
 
     fun dispose() {
-        renderer.dispose()
+        shapeRenderer.dispose()
         mapRenderer.dispose()
     }
 
     private fun renderDebug() {
-        if (game.isDrawGrid) ViewportUtils.drawGrid(viewport, renderer)
-        if (!game.isDrawDebug) return
+        if (gameWorld.isDrawGrid) ViewportUtils.drawGrid(viewport, shapeRenderer)
+        if (!gameWorld.isDrawDebug) return
 
-        val oldColor = renderer.color.cpy()
+        val oldColor = shapeRenderer.color.cpy()
 
         viewport.apply()
-        renderer.apply {
+        shapeRenderer.apply {
             projectionMatrix = camera.combined
             begin(ShapeRenderer.ShapeType.Line)
         }
 
         drawDebug()
 
-        renderer.apply {
+        shapeRenderer.apply {
             end()
             color = oldColor
         }
     }
 
     private fun drawDebug() {
-        renderer.color = Color.GOLD
-
-        ShapeRendererUtils.entities(renderer, game.waterHazards)
+        shapeRenderer.color = Color.ROYAL
+        ShapeRendererUtils.entities(shapeRenderer, gameWorld.waterHazards)
+        shapeRenderer.color = Color.GREEN
+        ShapeRendererUtils.entities(shapeRenderer, gameWorld.platforms)
     }
 }
