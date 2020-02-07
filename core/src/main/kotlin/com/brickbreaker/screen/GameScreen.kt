@@ -4,6 +4,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
+import com.brickbreaker.input.PaddleInputController
 import com.util.debug.DebugCameraController
 import com.util.game.GameBase
 
@@ -11,20 +12,23 @@ class GameScreen(game: GameBase) : ScreenAdapter() {
 
     private val scoreController = ScoreController()
     private val factory = EntityFactory(game.assetManager)
-    private val controller = GameController(factory, scoreController)
-    private val renderer = GameRenderer(controller, game.batch, game.assetManager)
+    private val gameModel = GameModel(factory, scoreController)
+    private val controller = GameController(gameModel)
+    private val gameView = GameView(gameModel, game.batch, game.assetManager)
+    private val paddleInputController = PaddleInputController(gameModel.paddle, gameView)
 
     override fun show() {
         DebugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y)
     }
 
     override fun render(delta: Float) {
+        paddleInputController.update(delta)
         controller.update(delta)
-        renderer.render(delta)
+        gameView.render(delta)
     }
 
     override fun resize(width: Int, height: Int) {
-        renderer.resize(width, height)
+        gameView.resize(width, height)
     }
 
     override fun hide() {
@@ -32,7 +36,7 @@ class GameScreen(game: GameBase) : ScreenAdapter() {
     }
 
     override fun dispose() {
-        renderer.dispose()
+        gameView.dispose()
     }
 
 }

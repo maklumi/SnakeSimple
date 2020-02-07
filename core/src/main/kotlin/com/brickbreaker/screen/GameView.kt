@@ -1,7 +1,5 @@
 package com.brickbreaker.screen
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -19,30 +17,27 @@ import com.util.debug.DebugCameraController
 import com.util.debug.ShapeRendererUtils
 import ktx.app.clearScreen
 
-class GameRenderer(private val controller: GameController,
-                   private val batch: SpriteBatch,
-                   assetManager: AssetManager) {
+class GameView(private val gameModel: GameModel,
+               private val batch: SpriteBatch,
+               assetManager: AssetManager) {
 
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT)
     private val glyphLayout = GlyphLayout()
     private var bitmapFont = assetManager.get(AssetDescriptors.FONT)
 
     private val camera = OrthographicCamera()
-    private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
+    val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private val renderer = ShapeRenderer()
 
     private val backgroundRegion = RegionNames.background()
-    private val paddle = controller.paddle
-    private val ball = controller.ball
-    private val bricks = controller.bricks
-    private var isDrawGrid = false
-    private var isDrawDebug = false
+    private val paddle = gameModel.paddle
+    private val ball = gameModel.ball
+    private val bricks = gameModel.bricks
 
     fun render(delta: Float) {
         DebugCameraController.handleDebugInput(delta)
         DebugCameraController.applyTo(camera)
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) isDrawGrid = !isDrawGrid
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) isDrawDebug = !isDrawDebug
+
         clearScreen(0f, 0f, 0f)
         renderGamePlay()
         renderHud()
@@ -62,8 +57,8 @@ class GameRenderer(private val controller: GameController,
         batch.draw(RegionNames.paddle(), paddle.x, paddle.y, paddle.width, paddle.height)
         batch.draw(RegionNames.ball(), ball.x, ball.y, ball.width, ball.height)
         bricks.forEach { brick -> batch.draw(RegionNames.brick(), brick.x, brick.y, brick.width, brick.height) }
-        controller.effects.forEach { effect -> effect.draw(batch) }
-        controller.pickups.forEach { drawPickup(it) }
+        gameModel.effects.forEach { effect -> effect.draw(batch) }
+        gameModel.pickups.forEach { drawPickup(it) }
     }
 
     private fun drawPickup(pickup: Pickup) {
@@ -85,17 +80,17 @@ class GameRenderer(private val controller: GameController,
     }
 
     private fun drawHud() {
-        glyphLayout.setText(bitmapFont, "SCORE: " + controller.scoreController.score)
+        glyphLayout.setText(bitmapFont, "SCORE: " + gameModel.scoreController.score)
         bitmapFont.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
     }
 
     private fun renderDebug() {
-        if (isDrawGrid)
+        if (gameModel.isDrawGrid)
             ViewportUtils.drawGrid(viewport, renderer, 4)
 
         renderer.projectionMatrix = camera.combined
         renderer.begin(ShapeRenderer.ShapeType.Line)
-        if (isDrawDebug)
+        if (gameModel.isDrawDebug)
             drawDebug()
         renderer.end()
     }
@@ -104,15 +99,15 @@ class GameRenderer(private val controller: GameController,
         val oldColor = renderer.color.cpy()
         renderer.color = Color.GOLDENROD
         // paddle
-        val paddleBound = controller.paddle.bounds
+        val paddleBound = gameModel.paddle.bounds
         ShapeRendererUtils.polygon(renderer, paddleBound)
         // bricks
-        controller.bricks.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
+        gameModel.bricks.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
         // ball
-        ShapeRendererUtils.polygon(renderer, controller.ball.bounds)
+        ShapeRendererUtils.polygon(renderer, gameModel.ball.bounds)
         renderer.color = oldColor
         // pickups
-        controller.pickups.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
+        gameModel.pickups.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
     }
 
     fun resize(width: Int, height: Int) {
