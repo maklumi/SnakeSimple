@@ -53,7 +53,16 @@ class GameView(private val gameModel: GameModel,
     }
 
     private fun drawGamePlay() {
-        batch.draw(backgroundRegion, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        val background = gameModel.background
+        val firstRegionBounds = background.firstRegionBounds
+        val secondRegionBounds = background.secondRegionBounds
+
+        batch.draw(backgroundRegion, firstRegionBounds.x, firstRegionBounds.y,
+                   firstRegionBounds.width, firstRegionBounds.height)
+
+        batch.draw(backgroundRegion, secondRegionBounds.x, secondRegionBounds.y,
+                   secondRegionBounds.width, secondRegionBounds.height)
+
         batch.draw(RegionNames.paddle(), paddle.x, paddle.y, paddle.width, paddle.height)
         batch.draw(RegionNames.ball(), ball.x, ball.y, ball.width, ball.height)
         bricks.forEach { brick -> batch.draw(RegionNames.brick(), brick.x, brick.y, brick.width, brick.height) }
@@ -118,6 +127,12 @@ class GameView(private val gameModel: GameModel,
     private fun drawDebug() {
         val oldColor = renderer.color.cpy()
         renderer.color = Color.GOLDENROD
+        // background
+        val background = gameModel.background
+        val first = background.firstRegionBounds
+        val second = background.secondRegionBounds
+        ShapeRendererUtils.rect(renderer, first)
+        ShapeRendererUtils.rect(renderer, second)
         // paddle
         val paddleBound = gameModel.paddle.bounds
         ShapeRendererUtils.polygon(renderer, paddleBound)

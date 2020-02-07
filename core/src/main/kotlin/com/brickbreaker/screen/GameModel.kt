@@ -28,6 +28,7 @@ class GameModel(
     val ball = factory.createBall()
     val bricks = factory.createBricks()
     val paddle = factory.createPaddle()
+    val background = factory.createBackground()
 
     var isDrawGrid = false
     var isDrawDebug = false
@@ -37,6 +38,7 @@ class GameModel(
         get() = lives <= 0
 
     fun update(delta: Float) {
+        background.update(delta)
         if (ball.isNotActive) return
         paddle.limitX()
         ball.update(delta)

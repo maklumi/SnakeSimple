@@ -50,4 +50,5 @@ object GameConfig {
     const val LIFE_HUD_HEIGHT = 12f // world units (hud)
     const val LIFE_HUD_SPACING = 10f // world units (hud)
 
+    const val BACKGROUND_SPEED = 1f
 }

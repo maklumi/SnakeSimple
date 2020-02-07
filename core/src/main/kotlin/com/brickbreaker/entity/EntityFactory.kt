@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Pools
 import com.brickbreaker.assets.AssetDescriptors
 import com.brickbreaker.config.GameConfig
+import com.brickbreaker.util.Direction
+import com.brickbreaker.util.parallax.ParallaxLayer
 
 class EntityFactory(assetManager: AssetManager) {
 
@@ -73,6 +75,14 @@ class EntityFactory(assetManager: AssetManager) {
 
     fun freePickup(pickup: Pickup) {
         pickupPool.free(pickup)
+    }
+
+    fun createBackground(): ParallaxLayer {
+        val background = ParallaxLayer()
+        background.setSize(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        background.setDirection(Direction.DOWN)
+        background.speed = GameConfig.BACKGROUND_SPEED
+        return background
     }
 
 }
