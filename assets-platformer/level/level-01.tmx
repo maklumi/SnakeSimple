@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="20" height="12" tilewidth="64" tileheight="64" nextobjectid="19">
+ <tileset firstgid="1" name="gameplay" tilewidth="64" tileheight="64" spacing="2" margin="2" tilecount="15" columns="15">
+  <image source="../gameplay/gameplay.png" width="1024" height="128"/>
+ </tileset>
+ <layer name="gameplay" width="20" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,9,11,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,10,9,11,7,7,10,9,11,0,0,0,0,0,
+0,10,9,9,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+</data>
+ </layer>
+ <objectgroup name="collectibles">
+  <object id="14" name="coin" x="529" y="350" width="32" height="32"/>
+  <object id="15" name="coin" x="198" y="341" width="32" height="32"/>
+  <object id="16" name="coin" x="846" y="208" width="32" height="32"/>
+  <object id="17" name="coin" x="684" y="201" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="player">
+  <object id="18" name="player" x="1074" y="119" width="60" height="60"/>
+ </objectgroup>
+ <objectgroup name="hazards">
+  <object id="1" name="hazard" x="0" y="704" width="1280" height="64"/>
+  <object id="2" name="hazard" x="640" y="395" width="128" height="53"/>
+ </objectgroup>
+ <objectgroup name="platforms">
+  <object id="4" name="platform" x="1024" y="192" width="192" height="64"/>
+  <object id="6" name="platform" x="768" y="384" width="192" height="64"/>
+  <object id="7" name="platform" x="448" y="384" width="192" height="64"/>
+  <object id="8" name="platform" x="64" y="448" width="256" height="64"/>
+ </objectgroup>
+</map>
