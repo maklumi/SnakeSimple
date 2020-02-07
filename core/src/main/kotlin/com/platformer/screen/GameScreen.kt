@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.platformer.SimplePlatformerGame
 import com.platformer.assets.AssetDescriptors
+import com.platformer.common.EntityFactory
 import com.platformer.config.GameConfig
 import com.platformer.screen.game.GameController
 import com.platformer.screen.game.GameRenderer
@@ -14,7 +15,7 @@ import com.util.debug.DebugCameraController
 
 class GameScreen(val game: SimplePlatformerGame) : ScreenAdapter() {
 
-    private val gameWorld = GameWorld()
+    private val gameWorld = EntityFactory.createGameWorld(game.assetManager)
     private val renderer = GameRenderer(gameWorld, game.batch, game.assetManager)
     private val controller = GameController(gameWorld, renderer)
 
