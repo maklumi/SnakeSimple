@@ -10,4 +10,6 @@ object AssetPaths {
     const val HIT = "assets-brickbreaker/sounds/hit.wav"
     const val LOST = "assets-brickbreaker/sounds/lost.wav"
     const val PICKUP = "assets-brickbreaker/sounds/pickup.wav"
+
+    const val SKIN = "assets-brickbreaker/ui/skin.json"
 }

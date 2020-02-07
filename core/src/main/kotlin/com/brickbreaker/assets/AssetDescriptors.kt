@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Array
 
 
@@ -18,8 +19,11 @@ object AssetDescriptors {
     val LOST = AssetDescriptor(AssetPaths.LOST, Sound::class.java)
     val PICKUP = AssetDescriptor(AssetPaths.PICKUP, Sound::class.java)
 
+    val SKIN = AssetDescriptor(AssetPaths.SKIN, Skin::class.java)
+
     val ALL = Array<AssetDescriptor<*>>().also {
         it.addAll(
+                SKIN,
                 HIT, LOST, PICKUP,
                 FIRE,
                 GAME_PLAY,

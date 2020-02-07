@@ -10,6 +10,12 @@ object AssetPackerBrickBreaker {
     @JvmStatic
     fun main(args: Array<String>) {
         TexturePacker.process("$source/gameplay", "$destination/gameplay", "gameplay")
+
+        TexturePacker.process(
+                "$source/ui",
+                "$destination/ui",
+                "skin"
+        )
     }
 
 }

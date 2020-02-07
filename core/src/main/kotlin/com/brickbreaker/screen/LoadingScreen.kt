@@ -38,7 +38,7 @@ class LoadingScreen(private val game: GameBase) : ScreenAdapter() {
         draw()
 
         if (changeScreen)
-            game.screen = GameScreen(game)
+            game.screen = MenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {

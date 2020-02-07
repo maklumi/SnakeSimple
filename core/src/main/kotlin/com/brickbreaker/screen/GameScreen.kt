@@ -9,9 +9,8 @@ import com.brickbreaker.input.PaddleInputController
 import com.util.debug.DebugCameraController
 import com.util.game.GameBase
 
-class GameScreen(game: GameBase) : ScreenAdapter() {
+class GameScreen(private val game: GameBase, scoreController: ScoreController) : ScreenAdapter() {
 
-    private val scoreController = ScoreController()
     private val soundController = SoundController(game.assetManager)
     private val factory = EntityFactory(game.assetManager)
     private val gameModel = GameModel(factory, scoreController, soundController)
@@ -27,6 +26,7 @@ class GameScreen(game: GameBase) : ScreenAdapter() {
         if (!gameModel.isGameOver) paddleInputController.update(delta)
         controller.update(delta)
         gameView.render(delta)
+        if (gameModel.isGameOver) game.screen = MenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {
