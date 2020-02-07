@@ -60,6 +60,7 @@ class GameRenderer(private val controller: GameController,
         batch.draw(RegionNames.paddle(), paddle.x, paddle.y, paddle.width, paddle.height)
         batch.draw(RegionNames.ball(), ball.x, ball.y, ball.width, ball.height)
         bricks.forEach { brick -> batch.draw(RegionNames.brick(), brick.x, brick.y, brick.width, brick.height) }
+        controller.effects.forEach { effect -> effect.draw(batch) }
     }
 
     private fun renderHud() {

@@ -1,8 +1,10 @@
 package com.brickbreaker.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Array
 import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
@@ -12,6 +14,7 @@ import com.brickbreaker.util.shape.RectangleUtils
 class GameController(private val factory: EntityFactory,
                      val scoreController: ScoreController) {
 
+    val effects = Array<ParticleEffectPool.PooledEffect>()
     val ball = factory.createBall()
     val bricks = factory.createBricks()
     val paddle = factory.createPaddle()
@@ -31,6 +34,7 @@ class GameController(private val factory: EntityFactory,
         checkPaddleCollision()
         checkBrickCollision()
         if (bricks.isEmpty) startLevel()
+        updateEffects(delta)
     }
 
     private fun limitBallXY() {
@@ -106,10 +110,28 @@ class GameController(private val factory: EntityFactory,
                 ball.multiplyVelocityY(-1f)
             }
 
+            // create fire effect
+            val effectX = brick.x + brick.width / 2f
+            val effectY = brick.y + brick.height / 2f
+            val effect = factory.createFire(effectX, effectY)
+            effects.add(effect)
 
             // add score
             scoreController.score += GameConfig.BRICK_SCORE
             scoreController.updateHighScore()
+        }
+    }
+
+    private fun updateEffects(delta: Float) {
+        val iterator = Array.ArrayIterator(effects)
+        while (iterator.hasNext()) {
+            val effect = iterator.next()
+            effect.update(delta)
+
+            if (effect.isComplete) {
+                iterator.remove()
+                effect.free()
+            }
         }
     }
 
@@ -125,6 +147,11 @@ class GameController(private val factory: EntityFactory,
         ball.setPosition(GameConfig.BALL_START_X, GameConfig.BALL_START_Y)
         ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
         ball.stop()
+        for (i in 0 until effects.size) {
+            val effect = effects.get(i)
+            effect.free()
+            effects.removeIndex(i)
+        }
     }
 
 }

@@ -10,7 +10,7 @@ import com.util.game.GameBase
 class GameScreen(game: GameBase) : ScreenAdapter() {
 
     private val scoreController = ScoreController()
-    private val factory = EntityFactory()
+    private val factory = EntityFactory(game.assetManager)
     private val controller = GameController(factory, scoreController)
     private val renderer = GameRenderer(controller, game.batch, game.assetManager)
 

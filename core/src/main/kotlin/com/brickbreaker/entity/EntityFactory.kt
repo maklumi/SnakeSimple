@@ -1,9 +1,12 @@
 package com.brickbreaker.entity
 
+import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
 import com.badlogic.gdx.utils.Array
+import com.brickbreaker.assets.AssetDescriptors
 import com.brickbreaker.config.GameConfig
 
-class EntityFactory {
+class EntityFactory(assetManager: AssetManager) {
 
     fun createPaddle(): Paddle {
         val paddle = Paddle()
@@ -45,6 +48,16 @@ class EntityFactory {
         ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
         ball.bound.setRadius(GameConfig.BALL_HALF_SIZE)
         return ball
+    }
+
+    private val fireEffect = assetManager.get(AssetDescriptors.FIRE)
+    private val fireEffectPool = ParticleEffectPool(fireEffect, 5, 20)
+
+    fun createFire(x: Float, y: Float): ParticleEffectPool.PooledEffect {
+        val fireEffect = fireEffectPool.obtain()
+        fireEffect.setPosition(x, y)
+        fireEffect.start()
+        return fireEffect
     }
 
 }
