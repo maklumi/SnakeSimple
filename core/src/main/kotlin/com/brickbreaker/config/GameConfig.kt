@@ -45,4 +45,9 @@ object GameConfig {
     const val PICKUP_VELOCITY_Y = -6f // gravity
 
     const val LIVES_START = 3
+
+    const val LIFE_HUD_WIDTH = 40f // world units (hud)
+    const val LIFE_HUD_HEIGHT = 12f // world units (hud)
+    const val LIFE_HUD_SPACING = 10f // world units (hud)
+
 }

@@ -82,10 +82,26 @@ class GameView(private val gameModel: GameModel,
     private fun drawHud() {
         glyphLayout.setText(bitmapFont, "SCORE: " + gameModel.scoreController.score)
         bitmapFont.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
-        glyphLayout.setText(bitmapFont, "LIVES: " + gameModel.lives)
-        bitmapFont.draw(batch, glyphLayout,
-                        GameConfig.HUD_WIDTH - glyphLayout.width,
-                        GameConfig.HUD_HEIGHT - glyphLayout.height)
+
+        val lives = gameModel.lives
+        val oldColor = batch.color.cpy()
+        val offsetX = GameConfig.LIVES_START * (GameConfig.LIFE_HUD_WIDTH + GameConfig.LIFE_HUD_SPACING)
+        val offsetY = 36f
+        val spacing = GameConfig.LIFE_HUD_WIDTH + GameConfig.LIFE_HUD_SPACING
+
+        val x = GameConfig.HUD_WIDTH - offsetX // move left by offset
+        val y = GameConfig.HUD_HEIGHT - offsetY // move down by offset
+
+        for (i in 0 until GameConfig.LIVES_START) {
+            if (lives <= i) batch.setColor(1f, 1f, 1f, 0.3f)
+
+            batch.draw(RegionNames.paddle(),
+                       x + i * spacing, y,
+                       GameConfig.LIFE_HUD_WIDTH, GameConfig.LIFE_HUD_HEIGHT
+            )
+        }
+
+        batch.color = oldColor
     }
 
     private fun renderDebug() {
