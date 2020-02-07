@@ -1,5 +1,7 @@
 package com.brickbreaker.screen
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -28,11 +30,17 @@ class GameRenderer(private val controller: GameController,
     private val renderer = ShapeRenderer()
 
     private val backgroundRegion = RegionNames.background()
+    private val paddle = controller.paddle
+    private val ball = controller.ball
+    private val bricks = controller.bricks
+    private var isDrawGrid = false
+    private var isDrawDebug = false
 
     fun render(delta: Float) {
         DebugCameraController.handleDebugInput(delta)
         DebugCameraController.applyTo(camera)
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) isDrawGrid = !isDrawGrid
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F6)) isDrawDebug = !isDrawDebug
         clearScreen(0f, 0f, 0f)
         renderGamePlay()
         renderHud()
@@ -49,6 +57,9 @@ class GameRenderer(private val controller: GameController,
 
     private fun drawGamePlay() {
         batch.draw(backgroundRegion, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        batch.draw(RegionNames.paddle(), paddle.x, paddle.y, paddle.width, paddle.height)
+        batch.draw(RegionNames.ball(), ball.x, ball.y, ball.width, ball.height)
+        bricks.forEach { brick -> batch.draw(RegionNames.brick(), brick.x, brick.y, brick.width, brick.height) }
     }
 
     private fun renderHud() {
@@ -65,11 +76,13 @@ class GameRenderer(private val controller: GameController,
     }
 
     private fun renderDebug() {
-        ViewportUtils.drawGrid(viewport, renderer, 4)
+        if (isDrawGrid)
+            ViewportUtils.drawGrid(viewport, renderer, 4)
 
         renderer.projectionMatrix = camera.combined
         renderer.begin(ShapeRenderer.ShapeType.Line)
-        drawDebug()
+        if (isDrawDebug)
+            drawDebug()
         renderer.end()
     }
 
