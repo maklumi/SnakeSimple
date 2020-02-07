@@ -34,4 +34,7 @@ object GameConfig {
 
     const val BRICK_SCORE = 10 // score
 
+    const val PICKUP_SIZE = 1f // world units
+    const val PICKUP_VELOCITY_Y = -6f // gravity
+
 }

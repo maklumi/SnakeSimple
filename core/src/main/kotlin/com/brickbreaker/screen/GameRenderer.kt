@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.brickbreaker.assets.AssetDescriptors
 import com.brickbreaker.assets.RegionNames
 import com.brickbreaker.config.GameConfig
+import com.brickbreaker.entity.Pickup
+import com.brickbreaker.entity.PickupType
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
 import com.util.debug.ShapeRendererUtils
@@ -61,6 +63,17 @@ class GameRenderer(private val controller: GameController,
         batch.draw(RegionNames.ball(), ball.x, ball.y, ball.width, ball.height)
         bricks.forEach { brick -> batch.draw(RegionNames.brick(), brick.x, brick.y, brick.width, brick.height) }
         controller.effects.forEach { effect -> effect.draw(batch) }
+        controller.pickups.forEach { drawPickup(it) }
+    }
+
+    private fun drawPickup(pickup: Pickup) {
+        val textureRegion = when (pickup.type) {
+            PickupType.EXPAND -> RegionNames.expand()
+            PickupType.SHRINK -> RegionNames.shrink()
+            PickupType.SLOW_DOWN -> RegionNames.`slow-down`()
+            PickupType.SPEED_UP -> RegionNames.`speed-up`()
+        }
+        batch.draw(textureRegion, pickup.x, pickup.y, pickup.width, pickup.height)
     }
 
     private fun renderHud() {
@@ -98,6 +111,8 @@ class GameRenderer(private val controller: GameController,
         // ball
         ShapeRendererUtils.circle(renderer, controller.ball.bound)
         renderer.color = oldColor
+        // pickups
+        controller.pickups.forEach { ShapeRendererUtils.polygon(renderer, it.bounds) }
     }
 
     fun resize(width: Int, height: Int) {

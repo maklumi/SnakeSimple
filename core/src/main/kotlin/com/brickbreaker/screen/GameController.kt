@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.Array
 import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
+import com.brickbreaker.entity.Pickup
 import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
 class GameController(private val factory: EntityFactory,
                      val scoreController: ScoreController) {
 
+    val pickups = Array<Pickup>()
     val effects = Array<ParticleEffectPool.PooledEffect>()
     val ball = factory.createBall()
     val bricks = factory.createBricks()
@@ -35,6 +37,7 @@ class GameController(private val factory: EntityFactory,
         checkBrickCollision()
         if (bricks.isEmpty) startLevel()
         updateEffects(delta)
+        updatePickups(delta)
     }
 
     private fun limitBallXY() {
@@ -116,6 +119,11 @@ class GameController(private val factory: EntityFactory,
             val effect = factory.createFire(effectX, effectY)
             effects.add(effect)
 
+            // create pick ups
+            val pickupX = brick.x + (brick.width - GameConfig.PICKUP_SIZE) / 2f
+            val pickup = factory.createPickup(pickupX, effectY)
+            pickups.add(pickup)
+
             // add score
             scoreController.score += GameConfig.BRICK_SCORE
             scoreController.updateHighScore()
@@ -131,6 +139,19 @@ class GameController(private val factory: EntityFactory,
             if (effect.isComplete) {
                 iterator.remove()
                 effect.free()
+            }
+        }
+    }
+
+    private fun updatePickups(delta: Float) {
+        val iterator = Array.ArrayIterator(pickups)
+        while (iterator.hasNext()) {
+            val pickup = iterator.next()
+            pickup.update(delta)
+
+            if (pickup.y < -pickup.height) {
+                factory.freePickup(pickup)
+                iterator.remove()
             }
         }
     }

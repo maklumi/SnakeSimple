@@ -3,6 +3,7 @@ package com.brickbreaker.entity
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.Pools
 import com.brickbreaker.assets.AssetDescriptors
 import com.brickbreaker.config.GameConfig
 
@@ -58,6 +59,21 @@ class EntityFactory(assetManager: AssetManager) {
         fireEffect.setPosition(x, y)
         fireEffect.start()
         return fireEffect
+    }
+
+    private val pickupPool = Pools.get(Pickup::class.java, 10)
+
+    fun createPickup(x: Float, y: Float): Pickup {
+        val pickup = pickupPool.obtain()
+        pickup.type = PickupType.random()
+        pickup.setSize(GameConfig.PICKUP_SIZE, GameConfig.PICKUP_SIZE)
+        pickup.setPosition(x, y)
+        pickup.setVelocityY(GameConfig.PICKUP_VELOCITY_Y)
+        return pickup
+    }
+
+    fun freePickup(pickup: Pickup) {
+        pickupPool.free(pickup)
     }
 
 }
