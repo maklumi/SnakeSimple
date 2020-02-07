@@ -12,7 +12,7 @@ class GameController(private val gameModel: GameModel) {
             gameModel.isDrawGrid = !gameModel.isDrawGrid
         if (Gdx.input.isKeyJustPressed(Input.Keys.F6))
             gameModel.isDrawDebug = !gameModel.isDrawDebug
-
+        if (gameModel.isGameOver) return
         val ball = gameModel.ball
         if (Gdx.input.justTouched() && ball.isNotActive) {
             ball.setVelocityY(GameConfig.BALL_START_SPEED)

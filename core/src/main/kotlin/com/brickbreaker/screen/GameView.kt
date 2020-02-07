@@ -82,6 +82,10 @@ class GameView(private val gameModel: GameModel,
     private fun drawHud() {
         glyphLayout.setText(bitmapFont, "SCORE: " + gameModel.scoreController.score)
         bitmapFont.draw(batch, glyphLayout, 20f, GameConfig.HUD_HEIGHT - glyphLayout.height)
+        glyphLayout.setText(bitmapFont, "LIVES: " + gameModel.lives)
+        bitmapFont.draw(batch, glyphLayout,
+                        GameConfig.HUD_WIDTH - glyphLayout.width,
+                        GameConfig.HUD_HEIGHT - glyphLayout.height)
     }
 
     private fun renderDebug() {

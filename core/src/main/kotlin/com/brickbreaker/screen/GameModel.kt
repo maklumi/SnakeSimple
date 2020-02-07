@@ -32,6 +32,10 @@ class GameModel(
     var isDrawGrid = false
     var isDrawDebug = false
 
+    var lives = GameConfig.LIVES_START
+    val isGameOver: Boolean
+        get() = lives <= 0
+
     fun update(delta: Float) {
         if (ball.isNotActive) return
         paddle.limitX()
@@ -47,8 +51,12 @@ class GameModel(
 
     private fun limitBallXY() {
         if (ball.y <= 0f) {
-            ball.y = 0f
-            ball.multiplyVelocityY(-1f)
+//            ball.y = 0f
+//            ball.multiplyVelocityY(-1f)
+            soundController.lost()
+            lives--
+            restart()
+            if (isGameOver) scoreController.updateHighScore()
         }
         if (ball.y >= GameConfig.WORLD_HEIGHT - GameConfig.BALL_SIZE) {
             ball.y = GameConfig.WORLD_HEIGHT - GameConfig.BALL_SIZE

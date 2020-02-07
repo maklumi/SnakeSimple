@@ -44,4 +44,5 @@ object GameConfig {
     const val PICKUP_SIZE = 1f // world units
     const val PICKUP_VELOCITY_Y = -6f // gravity
 
+    const val LIVES_START = 3
 }

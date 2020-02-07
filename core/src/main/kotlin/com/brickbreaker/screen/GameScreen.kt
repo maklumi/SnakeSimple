@@ -24,7 +24,7 @@ class GameScreen(game: GameBase) : ScreenAdapter() {
     }
 
     override fun render(delta: Float) {
-        paddleInputController.update(delta)
+        if (!gameModel.isGameOver) paddleInputController.update(delta)
         controller.update(delta)
         gameView.render(delta)
     }
