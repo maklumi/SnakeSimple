@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Logger
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.brickbreaker.assets.AssetDescriptors
+import com.brickbreaker.assets.RegionNames
 import com.brickbreaker.config.GameConfig
 import com.util.game.GameBase
 import ktx.app.clearScreen
@@ -28,6 +29,7 @@ class LoadingScreen(private val game: GameBase) : ScreenAdapter() {
     override fun show() {
         assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
         AssetDescriptors.ALL.forEach { assetManager.load(it) }
+        RegionNames.assetManager = assetManager
     }
 
     override fun render(delta: Float) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.brickbreaker.assets.AssetDescriptors
+import com.brickbreaker.assets.RegionNames
 import com.brickbreaker.config.GameConfig
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
@@ -26,13 +27,28 @@ class GameRenderer(private val controller: GameController,
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private val renderer = ShapeRenderer()
 
+    private val backgroundRegion = RegionNames.background()
+
     fun render(delta: Float) {
         DebugCameraController.handleDebugInput(delta)
         DebugCameraController.applyTo(camera)
 
         clearScreen(0f, 0f, 0f)
+        renderGamePlay()
         renderHud()
         renderDebug()
+    }
+
+    private fun renderGamePlay() {
+        viewport.apply()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        drawGamePlay()
+        batch.end()
+    }
+
+    private fun drawGamePlay() {
+        batch.draw(backgroundRegion, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
     }
 
     private fun renderHud() {
