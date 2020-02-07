@@ -17,6 +17,7 @@ object GameConfig {
 
     const val UNIT_SCALE = 1f / 64f // 64 pixels tile width in tmx map is 1 world unit
 
+    const val PLAYER_SIZE = 0.95f
 
 }
 

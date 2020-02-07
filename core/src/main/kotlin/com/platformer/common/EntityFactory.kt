@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.Logger
 import com.platformer.assets.AssetDescriptors
 import com.platformer.assets.LayerNames
 import com.platformer.assets.MapObjectNames
+import com.platformer.config.GameConfig
 import com.platformer.entity.Platform
+import com.platformer.entity.Player
 import com.platformer.entity.WaterHazard
 import com.platformer.screen.game.GameWorld
 import com.util.entity.EntityBase
@@ -27,6 +29,7 @@ object EntityFactory {
 
         processLayer(map, LayerNames.HAZARDS, world)
         processLayer(map, LayerNames.PLATFORMS, world)
+        processLayer(map, LayerNames.PLAYER, world)
 
         return world
     }
@@ -46,41 +49,29 @@ object EntityFactory {
     private fun processMapObject(mapObject: MapObject, world: GameWorld) {
         when (mapObject.name) {
             MapObjectNames.HAZARD -> {
-                val waterHazard = createWaterHazard(mapObject)
+                val waterHazard = initializeEntityObject(WaterHazard(),mapObject)
                 world.waterHazards.add(waterHazard)
             }
 
             MapObjectNames.PLATFORMS -> {
-                val platform = createPlatform(mapObject)
+                val platform = initializeEntityObject(Platform(), mapObject)
                 world.platforms.add(platform)
+            }
+            MapObjectNames.PLAYER -> {
+                world.player = initializeEntityObject(Player(), mapObject)
+                world.player.setSize(GameConfig.PLAYER_SIZE)
             }
 
         }
     }
 
-    private fun createWaterHazard(mapObject: MapObject): WaterHazard {
-        if (mapObject !is RectangleMapObject)
-            throw IllegalArgumentException("Water hazard needs to be represented by rectangle")
 
-        val rect = mapObject.rectangle
-
-        return WaterHazard().apply {
-            setPosition(rect.x, rect.y)
-            setSize(rect.width, rect.height)
-        }
-    }
-
-    private fun createPlatform(mapObject: MapObject): Platform {
-        val platform = Platform()
-        initializeEntityObject(platform, mapObject)
-        return platform
-    }
-
-    private fun <T : EntityBase> initializeEntityObject(entity: T, mapObject: MapObject) {
+    private fun <T : EntityBase> initializeEntityObject(entity: T, mapObject: MapObject): T {
         val rectangle = (mapObject as RectangleMapObject).rectangle
         entity.apply {
             setPosition(rectangle.x, rectangle.y)
             setSize(rectangle.width, rectangle.height)
         }
+        return entity
     }
 }

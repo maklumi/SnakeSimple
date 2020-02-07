@@ -2,6 +2,7 @@ package com.platformer.screen.game
 
 import com.badlogic.gdx.utils.Array
 import com.platformer.entity.Platform
+import com.platformer.entity.Player
 import com.platformer.entity.WaterHazard
 
 
@@ -12,6 +13,9 @@ class GameWorld {
 
     val waterHazards = Array<WaterHazard>()
     val platforms = Array<Platform>()
+    var player = Player()
+
+    var wait = 0f
 
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid
@@ -22,6 +26,6 @@ class GameWorld {
     }
 
     fun update(delta: Float) {
-
+        wait += delta
     }
 }
