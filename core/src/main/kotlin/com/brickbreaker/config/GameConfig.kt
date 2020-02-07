@@ -15,6 +15,9 @@ object GameConfig {
     const val PADDLE_START_X = (WORLD_WIDTH - PADDLE_START_WIDTH) / 2f // world units
     const val PADDLE_START_Y = 1f // world units
     const val PADDLE_VELOCITY_X = 15f // world units
+    const val PADDLE_RESIZE_FACTOR = 0.15f // percentage
+    const val PADDLE_MAX_WIDTH = 16f
+    const val PADDLE_EXPAND_SHRINK_SPEED = 6f
 
     const val BRICK_WIDTH = 2.125f // world units
     const val BRICK_HEIGHT = 1f // world units

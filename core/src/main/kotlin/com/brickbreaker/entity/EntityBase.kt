@@ -11,6 +11,11 @@ abstract class EntityBase {
     var y = 0f
 
     var width = 1f
+        set(value) {
+            field = value
+            bounds.vertices = ShapeUtils.createRectangle(field, height)
+        }
+
     var height = 1f
 
     var bounds: Polygon = Polygon()
@@ -27,7 +32,7 @@ abstract class EntityBase {
     val isNotActive: Boolean
         get() = velocity.isZero
 
-    fun update(delta: Float) {
+    open fun update(delta: Float) {
         val newX = x + velocity.x * delta
         val newY = y + velocity.y * delta
 

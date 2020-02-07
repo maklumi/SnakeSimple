@@ -9,6 +9,7 @@ import com.brickbreaker.common.ScoreController
 import com.brickbreaker.config.GameConfig
 import com.brickbreaker.entity.EntityFactory
 import com.brickbreaker.entity.Pickup
+import com.brickbreaker.entity.script.PaddleExpandScript
 import com.brickbreaker.input.PaddleInputController
 import com.brickbreaker.util.shape.RectangleUtils
 
@@ -139,6 +140,7 @@ class GameController(private val factory: EntityFactory,
             if (Intersector.overlapConvexPolygons(paddle.bounds, pickup.bounds)) {
                 iterator.remove()
                 factory.freePickup(pickup)
+                paddle.scriptController.addScript(PaddleExpandScript())
             }
         }
     }
@@ -178,6 +180,7 @@ class GameController(private val factory: EntityFactory,
 
     private fun restart() {
         paddle.setPosition(GameConfig.PADDLE_START_X, GameConfig.PADDLE_START_Y)
+        paddle.setSize(GameConfig.PADDLE_START_WIDTH, GameConfig.PADDLE_HEIGHT)
         ball.setPosition(GameConfig.BALL_START_X, GameConfig.BALL_START_Y)
         ball.bound.setPosition(ball.x + GameConfig.BALL_HALF_SIZE, ball.y + GameConfig.BALL_HALF_SIZE)
         ball.stop()
