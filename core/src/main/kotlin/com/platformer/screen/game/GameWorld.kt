@@ -21,6 +21,8 @@ class GameWorld {
 
     var score = 0
     var lives = GameConfig.LIVES_START
+    val isGameOver: Boolean
+        get() = lives == 0
 
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid

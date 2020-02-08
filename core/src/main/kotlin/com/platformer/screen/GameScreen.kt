@@ -25,6 +25,10 @@ class GameScreen(val game: SimplePlatformerGame) : ScreenAdapter() {
         playerInputController.update()
         controller.update(delta)
         renderer.update(delta)
+
+        if (gameWorld.isGameOver) {
+            game.screen = MenuScreen(game)
+        }
     }
 
     override fun resize(width: Int, height: Int) {
