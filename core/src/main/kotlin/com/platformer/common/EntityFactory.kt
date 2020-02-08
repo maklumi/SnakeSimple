@@ -9,6 +9,7 @@ import com.platformer.assets.AssetDescriptors
 import com.platformer.assets.LayerNames
 import com.platformer.assets.MapObjectNames
 import com.platformer.config.GameConfig
+import com.platformer.entity.Coin
 import com.platformer.entity.Platform
 import com.platformer.entity.Player
 import com.platformer.entity.WaterHazard
@@ -30,6 +31,7 @@ object EntityFactory {
         processLayer(map, LayerNames.HAZARDS, world)
         processLayer(map, LayerNames.PLATFORMS, world)
         processLayer(map, LayerNames.PLAYER, world)
+        processLayer(map, LayerNames.COLLECTIBLES, world)
 
         return world
     }
@@ -49,7 +51,7 @@ object EntityFactory {
     private fun processMapObject(mapObject: MapObject, world: GameWorld) {
         when (mapObject.name) {
             MapObjectNames.HAZARD -> {
-                val waterHazard = initializeEntityObject(WaterHazard(),mapObject)
+                val waterHazard = initializeEntityObject(WaterHazard(), mapObject)
                 world.waterHazards.add(waterHazard)
             }
 
@@ -61,7 +63,11 @@ object EntityFactory {
                 world.player = initializeEntityObject(Player(), mapObject)
                 world.player.setSize(GameConfig.PLAYER_SIZE)
             }
-
+            MapObjectNames.COIN -> {
+                val coin = initializeEntityObject(Coin(), mapObject)
+                coin.setSize(GameConfig.COIN_SIZE)
+                world.coins.add(coin)
+            }
         }
     }
 

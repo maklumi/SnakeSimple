@@ -63,6 +63,9 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
         val player = gameWorld.player
         batch.draw(player.region, player.x, player.y, player.width, player.height)
 
+        val coins = gameWorld.coins
+        coins.forEach { c -> batch.draw(c.region, c.x, c.y, c.width, c.height) }
+
         batch.end()
     }
 
@@ -93,5 +96,7 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
         ShapeRendererUtils.entities(shapeRenderer, gameWorld.platforms)
         shapeRenderer.color = Color.GOLD
         ShapeRendererUtils.polygon(shapeRenderer, gameWorld.player.bounds)
+        shapeRenderer.color = Color.FIREBRICK
+        ShapeRendererUtils.entities(shapeRenderer, gameWorld.coins)
     }
 }

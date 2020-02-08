@@ -1,6 +1,7 @@
 package com.platformer.screen.game
 
 import com.badlogic.gdx.utils.Array
+import com.platformer.entity.Coin
 import com.platformer.entity.Platform
 import com.platformer.entity.Player
 import com.platformer.entity.WaterHazard
@@ -14,6 +15,7 @@ class GameWorld {
     val waterHazards = Array<WaterHazard>()
     val platforms = Array<Platform>()
     var player = Player()
+    val coins = Array<Coin>()
 
     var wait = 0f
 
