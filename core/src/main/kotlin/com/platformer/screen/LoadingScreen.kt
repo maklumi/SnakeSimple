@@ -31,11 +31,8 @@ class LoadingScreen(private val game: SimplePlatformerGame) : ScreenAdapter() {
     override fun show() {
         assetManager.logger = Logger("LoadingScreen", Logger.DEBUG)
 
-        game.assetManager.apply {
-            setLoader(TiledMap::class.java, TmxMapLoader())
-            load(AssetDescriptors.LEVEL_01)
-            finishLoading()
-        }
+        // add another asset loader on top of default ones
+        game.assetManager.setLoader(TiledMap::class.java, TmxMapLoader())
 
         AssetDescriptors.ALL.forEach { assetManager.load(it) }
         RegionNames.assetManager = assetManager
@@ -48,7 +45,7 @@ class LoadingScreen(private val game: SimplePlatformerGame) : ScreenAdapter() {
         draw()
 
         if (changeScreen)
-            game.screen = GameScreen(game)
+            game.screen = MenuScreen(game)
     }
 
     override fun resize(width: Int, height: Int) {

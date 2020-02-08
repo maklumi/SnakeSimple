@@ -1,0 +1,37 @@
+{
+  "BitmapFont": {
+    "default-font": {
+      "file": "font/font.fnt"
+    }
+  },
+  "Color": {
+    "white": {
+      "a": 1,
+      "b": 1,
+      "g": 1,
+      "r": 1
+    },
+    "black": {
+      "a": 1,
+      "b": 0,
+      "g": 0,
+      "r": 0
+    }
+  },
+  "TextButtonStyle": {
+    "default": {
+      "down": "button-down",
+      "up": "button-up",
+      "over": "button-over",
+      "font": "default-font",
+      "fontColor": "white",
+      "downFontColor": "black"
+    }
+  },
+  "LabelStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "white"
+    }
+  }
+}

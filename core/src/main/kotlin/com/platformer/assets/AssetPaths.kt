@@ -7,5 +7,6 @@ object AssetPaths {
     const val GAME_PLAY = "assets-platformer/gameplay/gameplay.atlas"
     const val FONT = "assets-platformer/ui/font/font.fnt"
     const val BACKGROUND = "assets-platformer/gameplay/background.png"
+    const val SKIN = "assets-platformer/ui/skin.json"
 
 }
