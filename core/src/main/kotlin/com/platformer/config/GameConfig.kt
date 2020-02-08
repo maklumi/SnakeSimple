@@ -28,5 +28,8 @@ object GameConfig {
     const val LIFE_WIDTH = 40f
     const val LIFE_HEIGHT = 40f
     const val LIFE_SPACING = 10f
+
+    const val COIN_SCORE = 20
+
 }
 

@@ -61,8 +61,10 @@ object EntityFactory {
                 world.platforms.add(platform)
             }
             MapObjectNames.PLAYER -> {
-                world.player = initializeEntityObject(Player(), mapObject)
-                world.player.setSize(GameConfig.PLAYER_SIZE)
+                val player = initializeEntityObject(Player(), mapObject)
+                player.setSize(GameConfig.PLAYER_SIZE)
+                player.saveStartPosition(player.x, player.y)
+                world.player = player
             }
             MapObjectNames.COIN -> {
                 val coin = initializeEntityObject(Coin(), mapObject)

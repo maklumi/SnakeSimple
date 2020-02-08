@@ -11,6 +11,10 @@ class Player : EntityBase() {
     private val jump = RegionNames.player_jumping()
     private val fall = RegionNames.player_falling()
 
+    // save starting position
+    private var startX = 0f
+    private var startY = 0f
+
     val region: TextureAtlas.AtlasRegion
         get() = if (isFalling()) fall else jump
 
@@ -53,4 +57,15 @@ class Player : EntityBase() {
     }
 
     fun isFalling(): Boolean = state.isFalling
+
+    fun saveStartPosition(x: Float, y: Float) {
+        startX = x
+        startY = y
+    }
+
+    fun reset() {
+        setPosition(startX, startY)
+        state = PlayerState.FALLING
+        velocity.setZero()
+    }
 }
