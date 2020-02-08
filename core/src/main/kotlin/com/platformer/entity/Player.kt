@@ -8,17 +8,35 @@ import com.util.entity.EntityBase
 
 class Player : EntityBase() {
 
-    var region: TextureAtlas.AtlasRegion = RegionNames.player_jumping()
+    private val jump = RegionNames.player_jumping()
+    private val fall = RegionNames.player_falling()
 
-    var state = PlayerState.FALLING
+    val region: TextureAtlas.AtlasRegion
+        get() = if (isFalling()) fall else jump
+
+    private val isFacingRight: Boolean
+        get() = velocity.x > 0.01f
+
+    private val isFacingLeft: Boolean
+        get() = velocity.x < -0.01f
+
+    private var state = PlayerState.FALLING
 
     override fun update(delta: Float) {
         super.update(delta)
 
         velocity.y += GameConfig.GRAVITY_Y * delta
-        setVelocityX(x + velocity.x * delta)
+        setVelocityX(velocity.x * delta)
 
         if (velocity.y < 0) fall()
+
+        val isFlipX = region.isFlipX
+        if (isFacingRight && isFlipX) {
+            region.flip(true, false)
+        }
+        if (isFacingLeft && !isFlipX) {
+            region.flip(true, false)
+        }
     }
 
     fun jump() {
@@ -34,5 +52,5 @@ class Player : EntityBase() {
         state = PlayerState.DEAD
     }
 
-    fun isFalling():Boolean = state.isFalling
+    fun isFalling(): Boolean = state.isFalling
 }
