@@ -24,5 +24,9 @@ object GameConfig {
     const val JUMP_VELOCITY = 9f
     const val GRAVITY_Y = -14f
 
+    const val LIVES_START = 3
+    const val LIFE_WIDTH = 40f
+    const val LIFE_HEIGHT = 40f
+    const val LIFE_SPACING = 10f
 }
 

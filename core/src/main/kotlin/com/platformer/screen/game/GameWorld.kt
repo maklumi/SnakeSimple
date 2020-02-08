@@ -19,6 +19,9 @@ class GameWorld {
     var player = Player()
     val coins = Array<Coin>()
 
+    var score = 0
+    var lives = GameConfig.LIVES_START
+
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid
     }
@@ -31,7 +34,7 @@ class GameWorld {
         player.update(delta)
 
         blockPlayerFromLeavingWorld()
-        
+
         // check collision player-platform
         platforms.forEach { p ->
             if (Intersector.overlapConvexPolygons(player.bounds, p.bounds) && player.isFalling()) {
