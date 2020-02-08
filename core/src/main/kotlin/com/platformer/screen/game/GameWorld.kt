@@ -2,6 +2,7 @@ package com.platformer.screen.game
 
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.utils.Array
+import com.platformer.common.GameState
 import com.platformer.config.GameConfig
 import com.platformer.entity.Coin
 import com.platformer.entity.Platform
@@ -23,6 +24,8 @@ class GameWorld {
     var lives = GameConfig.LIVES_START
     val isGameOver: Boolean
         get() = lives == 0
+
+    var state = GameState.PLAYING
 
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid
@@ -52,6 +55,9 @@ class GameWorld {
                 score += GameConfig.COIN_SCORE
             }
         }
+
+        // check if all coins are collected and set level to complete
+        if (coins.size == 0) state = GameState.LEVEL_COMPLETE
 
         // player - hazards
         waterHazards.forEach { water ->
