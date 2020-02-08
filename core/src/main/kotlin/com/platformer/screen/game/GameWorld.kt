@@ -1,5 +1,6 @@
 package com.platformer.screen.game
 
+import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.utils.Array
 import com.platformer.entity.Coin
 import com.platformer.entity.Platform
@@ -17,8 +18,6 @@ class GameWorld {
     var player = Player()
     val coins = Array<Coin>()
 
-    var wait = 0f
-
     fun toggleDrawGrid() {
         isDrawGrid = !isDrawGrid
     }
@@ -28,6 +27,12 @@ class GameWorld {
     }
 
     fun update(delta: Float) {
-        wait += delta
+        player.update(delta)
+
+        // check collision player-platform
+        platforms.forEach { p ->
+            if (Intersector.overlapConvexPolygons(player.bounds, p.bounds))
+                player.jump()
+        }
     }
 }

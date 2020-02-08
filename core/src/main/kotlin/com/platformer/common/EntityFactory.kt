@@ -22,6 +22,7 @@ import com.util.map.Validate
 object EntityFactory {
 
     private val log = Logger(EntityFactory::class.java.simpleName, Logger.DEBUG)
+    private var debug = false
 
     fun createGameWorld(assetManager: AssetManager): GameWorld {
         val world = GameWorld()
@@ -40,11 +41,11 @@ object EntityFactory {
         val layers = map.layers
         val layer = layers[layerName]
         Validate.notNull(layer, "Layer with name $layerName not found")
-        MapUtils.debugMapProperties(layer.properties)
+        if (debug) MapUtils.debugMapProperties(layer.properties)
         val mapObjects = layer.objects
         mapObjects.forEach {
             processMapObject(it, gameWorld)
-            log.debug("mapObject=$it")
+            if (debug) log.debug("mapObject=$it")
         }
     }
 

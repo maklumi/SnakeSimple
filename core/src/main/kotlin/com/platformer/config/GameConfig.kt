@@ -20,5 +20,9 @@ object GameConfig {
     const val PLAYER_SIZE = 0.95f
     const val COIN_SIZE = 0.5f
 
+    const val MOVE_VELOCITY = 3f
+    const val JUMP_VELOCITY = 9f
+    const val GRAVITY_Y = -14f
+
 }
 
