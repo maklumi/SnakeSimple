@@ -12,11 +12,13 @@ import com.badlogic.gdx.utils.Array
 
 object AssetDescriptors {
 
-    private val MAP_PARAMS = TmxMapLoader.Parameters().apply {
+    val MAP_PARAMS = TmxMapLoader.Parameters().apply {
         convertObjectToTileSpace = true
     }
 
     val LEVEL_01 = AssetDescriptor(AssetPaths.LEVEL_01, TiledMap::class.java, MAP_PARAMS)
+    val LEVEL_02 = AssetDescriptor(AssetPaths.LEVEL_02, TiledMap::class.java, MAP_PARAMS)
+    val LEVEL_03 = AssetDescriptor(AssetPaths.LEVEL_03, TiledMap::class.java, MAP_PARAMS)
     val SKIN = AssetDescriptor(AssetPaths.SKIN, Skin::class.java)
     val GAME_PLAY = AssetDescriptor(AssetPaths.GAME_PLAY, TextureAtlas::class.java)
     val FONT = AssetDescriptor(AssetPaths.FONT, BitmapFont::class.java)
@@ -25,6 +27,8 @@ object AssetDescriptors {
     val ALL = Array<AssetDescriptor<*>>().also {
         it.addAll(
                 LEVEL_01,
+                LEVEL_02,
+                LEVEL_03,
                 SKIN,
                 GAME_PLAY,
                 FONT,

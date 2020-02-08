@@ -13,6 +13,7 @@ import com.platformer.entity.Coin
 import com.platformer.entity.Platform
 import com.platformer.entity.Player
 import com.platformer.entity.WaterHazard
+import com.platformer.level.LevelController
 import com.platformer.screen.game.GameWorld
 import com.util.entity.EntityBase
 import com.util.map.MapUtils
@@ -27,7 +28,9 @@ object EntityFactory {
     fun createGameWorld(assetManager: AssetManager): GameWorld {
         val world = GameWorld()
 
-        val map = assetManager[AssetDescriptors.LEVEL_01]
+        LevelController.assetManager = assetManager
+        LevelController.loadRandomLevel()
+        val map = LevelController.tiledMap
 
         processLayer(map, LayerNames.HAZARDS, world)
         processLayer(map, LayerNames.PLATFORMS, world)

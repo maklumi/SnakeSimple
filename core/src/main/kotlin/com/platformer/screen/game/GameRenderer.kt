@@ -13,6 +13,7 @@ import com.platformer.assets.AssetDescriptors
 import com.platformer.assets.RegionNames
 import com.platformer.config.GameConfig
 import com.platformer.config.GameConfig.UNIT_SCALE
+import com.platformer.level.LevelController
 import com.util.GdxUtils
 import com.util.ViewportUtils
 import com.util.debug.DebugCameraController
@@ -25,7 +26,7 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
     private val viewport = FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera)
     private val shapeRenderer = ShapeRenderer()
 
-    private val map = assetManager[AssetDescriptors.LEVEL_01]
+    private val map = LevelController.tiledMap
     private val mapRenderer = OrthogonalTiledMapRenderer(map, UNIT_SCALE, batch)
 
     private val hudViewport = FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT)
