@@ -34,6 +34,7 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
     private val layout = GlyphLayout()
     private val lifeRegion = RegionNames.life()
     private val font = assetManager[AssetDescriptors.FONT]
+    private val backgroundTexture = assetManager[AssetDescriptors.BACKGROUND]
 
     fun update(delta: Float) {
         DebugCameraController.apply {
@@ -42,6 +43,8 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
         }
 
         GdxUtils.clearScreen()
+
+        renderBackground()
 
         mapRenderer.apply {
             setView(camera) // internally sets project matrix, important to call
@@ -65,6 +68,14 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
     fun dispose() {
         shapeRenderer.dispose()
         mapRenderer.dispose()
+    }
+
+    private fun renderBackground() {
+        viewport.apply()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        batch.draw(backgroundTexture, 0f, 0f, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT)
+        batch.end()
     }
 
     private fun renderGamePlay() {

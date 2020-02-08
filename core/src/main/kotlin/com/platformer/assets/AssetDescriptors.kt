@@ -1,6 +1,7 @@
 package com.platformer.assets
 
 import com.badlogic.gdx.assets.AssetDescriptor
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
@@ -18,9 +19,11 @@ object AssetDescriptors {
 
     val GAME_PLAY = AssetDescriptor(AssetPaths.GAME_PLAY, TextureAtlas::class.java)
     val FONT = AssetDescriptor(AssetPaths.FONT, BitmapFont::class.java)
+    val BACKGROUND = AssetDescriptor(AssetPaths.BACKGROUND, Texture::class.java)
 
     val ALL = Array<AssetDescriptor<*>>().also {
         it.addAll(
+                BACKGROUND,
                 FONT,
                 GAME_PLAY
 
