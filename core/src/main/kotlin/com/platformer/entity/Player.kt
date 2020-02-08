@@ -8,7 +8,6 @@ import com.util.entity.EntityBase
 
 class Player : EntityBase() {
 
-    //equivalent gamePlayAtlas.findRegion("player-jumping")
     var region: TextureAtlas.AtlasRegion = RegionNames.player_jumping()
 
     var state = PlayerState.FALLING
@@ -18,10 +17,22 @@ class Player : EntityBase() {
 
         velocity.y += GameConfig.GRAVITY_Y * delta
         setVelocityX(x + velocity.x * delta)
+
+        if (velocity.y < 0) fall()
     }
 
     fun jump() {
         state = PlayerState.JUMPING
         velocity.y = GameConfig.JUMP_VELOCITY
     }
+
+    private fun fall() {
+        state = PlayerState.FALLING
+    }
+
+    fun die() {
+        state = PlayerState.DEAD
+    }
+
+    fun isFalling():Boolean = state.isFalling
 }
