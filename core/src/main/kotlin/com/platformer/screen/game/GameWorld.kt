@@ -3,6 +3,7 @@ package com.platformer.screen.game
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.utils.Array
 import com.platformer.common.GameState
+import com.platformer.common.ScoreController
 import com.platformer.config.GameConfig
 import com.platformer.entity.Coin
 import com.platformer.entity.Platform
@@ -20,7 +21,6 @@ class GameWorld {
     var player = Player()
     val coins = Array<Coin>()
 
-    var score = 0
     var lives = GameConfig.LIVES_START
     val isGameOver: Boolean
         get() = lives == 0
@@ -52,7 +52,7 @@ class GameWorld {
         coins.forEach { coin ->
             if (Intersector.overlapConvexPolygons(player.bounds, coin.bounds)) {
                 coins.removeValue(coin, true)
-                score += GameConfig.COIN_SCORE
+                ScoreController.score += GameConfig.COIN_SCORE
             }
         }
 

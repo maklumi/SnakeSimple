@@ -4,6 +4,7 @@ import com.badlogic.gdx.ScreenAdapter
 import com.platformer.SimplePlatformerGame
 import com.platformer.common.EntityFactory
 import com.platformer.common.GameState
+import com.platformer.common.ScoreController
 import com.platformer.config.GameConfig
 import com.platformer.input.PlayerInputController
 import com.platformer.screen.game.GameController
@@ -40,6 +41,8 @@ class GameScreen(val game: SimplePlatformerGame) : ScreenAdapter() {
         }
 
         if (gameWorld.isGameOver) {
+            ScoreController.updateHighScore()
+            ScoreController.reset()
             game.screen = MenuScreen(game)
         }
     }

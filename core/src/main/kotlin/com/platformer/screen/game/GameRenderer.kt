@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.platformer.assets.AssetDescriptors
 import com.platformer.assets.RegionNames
+import com.platformer.common.ScoreController
 import com.platformer.config.GameConfig
 import com.platformer.config.GameConfig.UNIT_SCALE
 import com.platformer.level.LevelController
@@ -107,11 +108,16 @@ class GameRenderer(private val gameWorld: GameWorld, val batch: SpriteBatch, ass
 
     private fun drawHud() {
         // score
-        val scoreString = "Score: ${gameWorld.score}"
+        val scoreString = "Score: ${ScoreController.score}"
         layout.setText(font, scoreString)
 
         val scoreY = GameConfig.HUD_HEIGHT - layout.height
         font.draw(batch, layout, padding, scoreY)
+
+        // high score
+        val highScoreString = "High Score: ${ScoreController.highScore}"
+        layout.setText(font, highScoreString)
+        font.draw(batch, layout, GameConfig.HUD_WIDTH / 2f, scoreY)
 
         // lives
         val offsetX = GameConfig.LIVES_START * (GameConfig.LIFE_WIDTH + GameConfig.LIFE_SPACING)
